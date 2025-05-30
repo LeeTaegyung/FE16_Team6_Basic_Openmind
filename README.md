@@ -1,1 +1,1 @@
-# FE16_Team6_Basic_Openmind
+# 안녕하세요 파트2 6팀 입니다.
