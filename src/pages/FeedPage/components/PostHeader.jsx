@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
-import Logo from '../assets/images/Logo.svg';
-import PostHeaderBg from '../assets/images/PostHeaderBg.jpg';
+import Logo from '../../../assets/images/Logo.svg';
+import PostHeaderBg from '../../../assets/images/PostHeaderBg.jpg';
 
 function PostHeader() {
   return (

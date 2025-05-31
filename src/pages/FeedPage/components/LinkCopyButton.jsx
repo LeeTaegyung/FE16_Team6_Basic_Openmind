@@ -1,4 +1,4 @@
-import IconCopyLink from '../assets/icons/IconCopyLink.svg';
+import IconCopyLink from '../../../assets/icons/IconCopyLink.svg';
 
 function LinkCopyButton() {
   return (
