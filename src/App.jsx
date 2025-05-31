@@ -1,13 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import './App.css';
+
 import FeedPage from './pages/FeedPage';
+import { GlobalStyle } from './styles/GlobalStyle';
+import './App.css';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route to="/post/:id" element={<FeedPage />} />
-      </Routes>
+      <GlobalStyle>
+        <Routes>
+          <Route path='/post/:id' element={<FeedPage />} />
+        </Routes>
+      </GlobalStyle>
     </>
   );
 }
