@@ -1,10 +1,10 @@
+import Logo from '@components/Logo';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
-import Logo from '../../../assets/images/Logo.svg';
 import PostHeaderBg from '../../../assets/images/PostHeaderBg.jpg';
 
 function PostHeader() {
@@ -12,14 +12,7 @@ function PostHeader() {
     <PostHeaderStyle>
       <h1 className='logo'>
         <Link to='/'>
-          <img
-            src={Logo}
-            alt='오픈마인드 로고 이미지'
-            width={124}
-            height={49}
-            srcSet={`${Logo} 170w, ${Logo} 124w`}
-            sizes='(min-width: 768px) 170px, 124px'
-          />
+          <Logo />
         </Link>
       </h1>
       <div className='user-info'>
