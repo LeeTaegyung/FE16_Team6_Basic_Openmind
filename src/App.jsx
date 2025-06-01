@@ -1,7 +1,6 @@
+import FeedPage from '@pages/FeedPage';
+import { GlobalStyle } from '@styles/GlobalStyle';
 import { Routes, Route } from 'react-router-dom';
-
-import FeedPage from './pages/FeedPage/FeedPage';
-import { GlobalStyle } from './styles/GlobalStyle';
 
 function App() {
   return (
