@@ -15,7 +15,7 @@ function Toast({ message, delay, onClose }) {
     return () => {
       clearTimeout(TIMER);
     };
-  }, [delay]);
+  }, [delay, onClose]);
 
   const content = <StyledToast>{message}</StyledToast>;
   return createPortal(content, document.body);
