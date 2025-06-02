@@ -20,7 +20,7 @@ function Toast({ message, id, delay = TIMEOUT_DELAY }) {
     return () => {
       clearTimeout(TIMER);
     };
-  }, [delay]);
+  }, []);
 
   return <StyledToast $delay={delay}>{message}</StyledToast>;
 }
