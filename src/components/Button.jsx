@@ -8,6 +8,7 @@ export const ButtonBrown = styled.button`
   align-items: center;
   gap: 4px;
   font-size: ${({ theme }) => theme.fontSize.fz16};
+  border: 1px solid ${({ theme }) => theme.color.brown40};
 
   &:hover {
     border-color: transparent;
