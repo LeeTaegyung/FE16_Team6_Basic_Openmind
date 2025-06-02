@@ -6,6 +6,7 @@ export const ButtonBrown = styled.button`
   line-height: 1.2;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   font-size: ${({ theme }) => theme.fontSize.fz16};
   border: 1px solid ${({ theme }) => theme.color.brown40};
