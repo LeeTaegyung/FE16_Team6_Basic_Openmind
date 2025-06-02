@@ -9,7 +9,7 @@ function LikeButton({ isPressed, likeCount }) {
         fill={isPressed ? 'var(--blue-50)' : 'var(--gray-40)'}
         height='16'
       />
-      좋아요
+      <span>좋아요</span>
       {likeCount && <LikeCount>{likeCount}</LikeCount>}
     </LikeButtonWrapper>
   );
