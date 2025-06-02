@@ -21,13 +21,13 @@ const QuestionBoxWrapper = styled.div`
 `;
 
 const QuestionBoxText = styled.span`
-  color: var(--gray-40);
+  color: ${({ theme }) => theme.color.gray40};
   font-size: 14px;
   font-weight: 500;
 `;
 
 const QuestionBoxCreatedAt = styled.span`
-  color: var(--gray-40);
+  color: ${({ theme }) => theme.color.gray40};
   font-size: 14px;
   font-weight: 500;
 `;

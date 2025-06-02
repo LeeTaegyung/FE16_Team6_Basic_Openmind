@@ -14,13 +14,13 @@ const StyledBadge = styled.div`
 
   ${(props) =>
     props.variant === 'notAnswered' &&
-    `border: 1px solid var(--gray-40);
-    color: var(--gray-40);
+    `border: 1px solid ${props.theme.color.gray40};
+    color: ${props.theme.color.gray40};
   `}
 
   ${(props) =>
     props.variant === 'answered' &&
-    `border: 1px solid var(--brown-40);
-    color: var(--brown-40);
+    `border: 1px solid ${props.theme.color.brown40};
+    color: ${props.theme.color.brown40};
   `}
 `;

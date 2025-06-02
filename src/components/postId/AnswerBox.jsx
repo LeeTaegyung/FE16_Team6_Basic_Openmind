@@ -46,7 +46,7 @@ const AnswerBoxSubjectname = styled.span`
 const AnswerBoxCreatedAt = styled.span`
   font-size: 14px;
   font-weight: 500;
-  color: var(--gray-40);
+  color: ${({ theme }) => theme.color.gray40};
 `;
 
 const AnswerBoxUpperlineWrapper = styled.div`
@@ -62,5 +62,5 @@ const AnswerBoxText = styled.span.withConfig({
   font-size: 16px;
   font-weight: 400;
 
-  color: ${(props) => props.isRejected && 'var(--red-50)'};
+  color: ${(props) => props.isRejected && props.theme.color.red50};
 `;

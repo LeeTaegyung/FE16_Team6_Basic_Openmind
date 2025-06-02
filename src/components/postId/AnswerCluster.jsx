@@ -25,8 +25,8 @@ const AnswerClusterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background-color: var(--brown-10);
-  border: 1px solid var(--brown-30);
+  background-color: ${({ theme }) => theme.color.brown10};
+  border: 1px solid ${({ theme }) => theme.color.brown30};
   border-radius: 16px;
 `;
 
@@ -36,6 +36,6 @@ const AnswerClusterText = styled.span`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  color: var(--brown-40);
+  color: ${({ theme }) => theme.color.brown40};
   font-size: 20px;
 `;

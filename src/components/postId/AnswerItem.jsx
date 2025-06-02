@@ -36,13 +36,13 @@ const AnswerItemWrapper = styled.div`
   flex-direction: column;
   gap: 32px;
   padding: 32px;
-  background-color: var(--gray-10);
+  background-color: ${({ theme }) => theme.color.gray10};
   border-radius: 16px;
-  box-shadow: var(--shadow-1);
+  box-shadow: ${({ theme }) => theme.boxShadow.shadow1};
 `;
 
 const HorizontalLine = styled.div`
-  border-bottom: 1px solid var(--gray-30);
+  border-bottom: 1px solid ${({ theme }) => theme.color.gray30};
 `;
 
 const ReactionButton = styled.div`
