@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Pretendard', sans-serif;
-    background: var(--gray-20);
+    background: ${({ theme }) => theme.color.gray20};
   }
 
   ul,li{
