@@ -1,33 +1,90 @@
 import { useEffect } from 'react';
 
 import { createPortal } from 'react-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-function Toast({ message, delay, onClose }) {
+import { useToastContext } from '../contexts/ToastContext';
+
+const TIMEOUT_DELAY = 5000; // ms
+const ANIMATION_DURATION = 500; // ms
+
+// Toast 컴포넌트
+function Toast({ message, id, delay = TIMEOUT_DELAY }) {
+  const { deleteToast } = useToastContext();
+
   useEffect(() => {
-    const TIMER = setTimeout(
-      () => {
-        onClose(false);
-      },
-      delay * 1000 + 1000,
-    );
+    const TIMER = setTimeout(() => {
+      deleteToast(id); // 해당 하는 id의 토스트를 삭제
+    }, delay + ANIMATION_DURATION);
 
     return () => {
       clearTimeout(TIMER);
     };
-  }, [delay, onClose]);
+  }, [delay]);
 
-  const content = <StyledToast>{message}</StyledToast>;
-  return createPortal(content, document.body);
+  return <StyledToast $delay={delay}>{message}</StyledToast>;
 }
 
-export default Toast;
+// ToastContainer 컴포넌트
+export default function ToastContainer() {
+  const { toasts } = useToastContext();
+
+  const toastContainer = document.getElementById('toast-container');
+  if (!toastContainer) return;
+
+  return createPortal(
+    <StyledToastContainer>
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          id={toast.id}
+          message={toast.message}
+          delay={toast.delay}
+        />
+      ))}
+    </StyledToastContainer>,
+    toastContainer,
+  );
+}
+
+const toastShow = keyframes`
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+`;
+
+const toastHide = keyframes`
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+`;
+
+const StyledToastContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  padding-bottom: 60px;
+  pointer-events: none;
+`;
 
 const StyledToast = styled.div`
-  position: fixed;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
   padding: 12px 20px;
   font-size: var(--font-size-14);
   font-weight: 500;
@@ -36,28 +93,7 @@ const StyledToast = styled.div`
   border-radius: 8px;
   box-shadow: var(--shadow-2);
   animation:
-    animationTostShow 0.3s ease forwards,
-    animationTostHide 0.3s ease forwards 3s;
-
-  @keyframes animationTostShow {
-    0% {
-      transform: translate(-50%, 20px);
-      opacity: 0;
-    }
-    100% {
-      transform: translate(-50%, 0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes animationTostHide {
-    0% {
-      transform: translate(-50%, 0);
-      opacity: 1;
-    }
-    100% {
-      transform: translate(-50%, -20px);
-      opacity: 0;
-    }
-  }
+    ${toastShow} ${ANIMATION_DURATION}ms ease forwards,
+    ${toastHide} ${ANIMATION_DURATION}ms ease forwards
+      ${({ $delay }) => $delay || TIMEOUT_DELAY}ms;
 `;
