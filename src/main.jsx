@@ -5,12 +5,11 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App.jsx';
 import { GlobalStyle } from './styles/GlobalStyle.jsx';
-import './index.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <GlobalStyle />
     <BrowserRouter>
-      <GlobalStyle />
       <App />
     </BrowserRouter>
   </StrictMode>,
