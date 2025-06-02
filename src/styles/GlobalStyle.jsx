@@ -32,6 +32,10 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100%;
   }
 
+  svg{
+    height: auto;
+  }
+
   a {
     text-decoration: none;
     color: inherit;
