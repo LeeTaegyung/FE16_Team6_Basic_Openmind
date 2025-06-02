@@ -56,10 +56,12 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font: inherit;
   }
 
   body {
     font-family: 'Pretendard', sans-serif;
+    background: var(--gray-20);
   }
 
   ul,li{
@@ -77,7 +79,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    font-family: inherit;
+    border: none;
+    background: none;
+    border-radius: 0;
     cursor: pointer;
   }
 `;
