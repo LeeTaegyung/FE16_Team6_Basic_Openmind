@@ -86,12 +86,12 @@ const StyledToastContainer = styled.div`
 
 const StyledToast = styled.div`
   padding: 12px 20px;
-  font-size: var(--font-size-14);
+  font-size: ${({ theme }) => theme.fontSize.fz14};
   font-weight: 500;
   color: #fff;
-  background-color: var(--gray-60);
+  background-color: ${({ theme }) => theme.color.gray60};
   border-radius: 8px;
-  box-shadow: var(--shadow-2);
+  box-shadow: ${({ theme }) => theme.boxShadow.shadow2};
   animation:
     ${toastShow} ${ANIMATION_DURATION}ms ease forwards,
     ${toastHide} ${ANIMATION_DURATION}ms ease forwards
