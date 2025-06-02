@@ -12,7 +12,13 @@ function AnswerBox({ subjectInfo, children }) {
           <AnswerBoxSubjectname>{subjectInfo.name}</AnswerBoxSubjectname>
           <AnswerBoxCreatedAt>{children.createdAt}</AnswerBoxCreatedAt>
         </AnswerBoxUpperlineWrapper>
-        <AnswerBoxText>{children.content}</AnswerBoxText>
+        {children.isRejected ? (
+          <AnswerBoxText isRejected={children.isRejected}>
+            답변 거절
+          </AnswerBoxText>
+        ) : (
+          <AnswerBoxText>{children.content}</AnswerBoxText>
+        )}
       </div>
     </AnswerBoxWrapper>
   );
@@ -50,7 +56,11 @@ const AnswerBoxUpperlineWrapper = styled.div`
   margin-bottom: 4px;
 `;
 
-const AnswerBoxText = styled.span`
+const AnswerBoxText = styled.span.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isRejected',
+})`
   font-size: 16px;
   font-weight: 400;
+
+  color: ${(props) => props.isRejected && 'var(--red-50)'};
 `;
