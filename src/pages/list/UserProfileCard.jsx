@@ -1,11 +1,11 @@
 import QuestionCountIcon from '@assets/icons/QuestionCountIcon.svg?react';
 import styled from 'styled-components';
+import UserImageTest from '@assets/images/UserImageTest.png';
 
 function UserProfile({ user }) {
   return (
     <ProfileCard>
-      <img className='user-img' />
-      {/* 임시 이미지라 alt 안 달았습니다. */}
+      <img className='user-img' src={UserImageTest} alt='실험용 유저이미지' />
       <h2>유저이름</h2>
       <div>
         <span>
@@ -22,7 +22,6 @@ export default UserProfile;
 
 const ProfileCard = styled.div`
   background: ${({ theme }) => theme.color.gray10};
-  border: 1px solid var(--gray-40);
   border: 1px solid ${({ theme }) => theme.color.gray40};
   border-radius: 16px;
   padding: 16px;
