@@ -14,7 +14,6 @@ export default defineConfig({
     react(),
     svgr({
       svgrOptions: {
-        icon: true,
         replaceAttrValues: {
           '#000': 'currentColor',
           '#000000': 'currentColor',
