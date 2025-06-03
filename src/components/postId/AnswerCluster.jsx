@@ -20,7 +20,7 @@ function AnswerCluster({ subjectInfo, result }) {
 export default AnswerCluster;
 
 const AnswerClusterWrapper = styled.div`
-  width: 716px;
+  max-width: 716px;
   padding: 16px;
   display: flex;
   flex-direction: column;
