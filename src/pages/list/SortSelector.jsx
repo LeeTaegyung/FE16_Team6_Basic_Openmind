@@ -27,7 +27,7 @@ function SortSelector() {
     return () => {
       document.removeEventListener('click', closeDropDown);
     };
-  });
+  },[]);
 
   function handleClick(e) {
     if (e.target.tagName !== 'LI') return;
