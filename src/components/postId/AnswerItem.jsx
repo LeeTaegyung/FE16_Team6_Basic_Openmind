@@ -1,13 +1,66 @@
+import { useEffect, useState } from 'react';
+
+import axios from 'axios';
 import styled from 'styled-components';
 
 import Badge from '../Badge';
-import AnswerBox from './AnswerBox';
-import QuestionBox from './QuestionBox';
 import DislikeButton from '../DislikeButton';
 import LikeButton from '../LikeButton';
+import AnswerBox from './AnswerBox';
+import QuestionBox from './QuestionBox';
 
 function AnswerItem({ subjectInfo, result }) {
-  const isPressed = true;
+  const [isLikePressed, setIsLikePressed] = useState(false);
+  const [isDislikePressed, setIsDislikePressed] = useState(false);
+  const [isReactionPressed, setIsReactionPressed] = useState(false);
+  const [likeCount, setLikeCount] = useState(result.like);
+
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  const storageItem = localStorage.getItem('reaction');
+  const reaction = JSON.parse(storageItem);
+
+  const handleLikeClick = () => {
+    axios.post(`${baseUrl}/questions/${result.id}/reaction/`, {
+      type: 'like',
+    });
+    setLikeCount((prev) => prev + 1);
+    setIsLikePressed(true);
+    setIsReactionPressed(true);
+    localStorage.setItem(
+      'reaction',
+      JSON.stringify({
+        questionId: result.id,
+        reaction: 'like',
+      }),
+    );
+  };
+
+  const handleDislikeClick = () => {
+    axios.post(`${baseUrl}/questions/${result.id}/reaction/`, {
+      type: 'dislike',
+    });
+    setIsDislikePressed(true);
+    setIsReactionPressed(true);
+    localStorage.setItem(
+      'reaction',
+      JSON.stringify({
+        questionId: result.id,
+        reaction: 'dislike',
+      }),
+    );
+  };
+
+  useEffect(() => {
+    if (reaction && reaction.questionId === result.id) {
+      setIsReactionPressed(true);
+      if (reaction.reaction === 'like') setIsLikePressed(true);
+      else if (reaction.reaction === 'dislike') setIsDislikePressed(true);
+    } else {
+      return;
+    }
+  }, []);
+
   return (
     <AnswerItemWrapper>
       <Badge variant={result.answer ? 'answered' : 'notAnswered'}>
@@ -20,10 +73,17 @@ function AnswerItem({ subjectInfo, result }) {
       <HorizontalLine />
       <ReactionButton>
         <LikeButton
-          isPressed={isPressed}
-          likeCount={isPressed && result.like}
+          onClick={handleLikeClick}
+          isPressed={isLikePressed}
+          likeCount={likeCount}
+          disabled={isReactionPressed}
         />
-        <DislikeButton isPressed={false} />
+        <DislikeButton
+          onClick={handleDislikeClick}
+          questionId={result.id}
+          isPressed={isDislikePressed}
+          disabled={isReactionPressed}
+        />
       </ReactionButton>
     </AnswerItemWrapper>
   );
