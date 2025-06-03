@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import useToasts from '../hooks/useToasts';
+import useToasts from '@hooks/useToasts';
 const ToastsContext = createContext();
 
 export default function ToastProvider({ children }) {

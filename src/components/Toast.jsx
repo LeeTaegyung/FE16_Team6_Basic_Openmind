@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 
+import { useToastContext } from '@contexts/ToastContext';
 import { createPortal } from 'react-dom';
 import styled, { keyframes } from 'styled-components';
-
-import { useToastContext } from '../contexts/ToastContext';
 
 const TIMEOUT_DELAY = 5000; // ms
 const ANIMATION_DURATION = 500; // ms
