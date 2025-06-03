@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useToastContext } from '@contexts/ToastContext';
+import { useToastContext } from '@context/ToastContext';
 import { createPortal } from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
