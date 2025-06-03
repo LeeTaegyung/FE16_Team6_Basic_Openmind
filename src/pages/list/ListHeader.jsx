@@ -30,7 +30,7 @@ const Header = styled.header`
   .logo {
     width: 146px;
   }
-  
+
   @media screen and (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
@@ -45,7 +45,7 @@ export const Button = styled(ButtonBrown10)`
   font-size: ${({ theme }) => theme.fontSize.fz14};
   line-height: ${({ theme }) => theme.lineHeight.lh18};
 
-  svg{
+  svg {
     width: 18px;
   }
 
