@@ -4,7 +4,8 @@ import styled from 'styled-components';
 function UserProfile({ user }) {
   return (
     <ProfileCard>
-      <img className='user-img' alt='임시 이미지' />
+      <img className='user-img' />
+      {/* 임시 이미지라 alt 안 달았습니다. */}
       <h2>유저이름</h2>
       <div>
         <span>
