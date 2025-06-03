@@ -1,21 +1,70 @@
-import { useState } from 'react';
-
 import IconCopyLink from '@assets/icons/IconCopyLink.svg';
-import Toast from '@components/Toast';
+import { useToastContext } from '@context/ToastContext';
+
+const copyLink = () => {
+  return new Promise((resolve, reject) => {
+    const LINK = location.href;
+
+    if (
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === 'function'
+    ) {
+      // navigator.clipboard 지원O
+      navigator.clipboard
+        .writeText(LINK)
+        .then(() => {
+          resolve();
+        })
+        .catch(() => {
+          reject();
+        });
+    } else {
+      // navigator.clipboard 지원X
+      const textArea = document.createElement('textarea');
+      textArea.value = LINK;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = 0;
+      textArea.style.zIndex = -9999;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      const result = document.execCommand('copy');
+
+      if (result) {
+        resolve();
+      } else {
+        reject();
+      }
+
+      document.body.removeChild(textArea);
+    }
+  });
+};
 
 function LinkCopyButton() {
-  const [isToast, setIsToast] = useState(false);
+  const { createToast } = useToastContext();
 
-  const handleToast = () => setIsToast(true);
+  const handleClickLinkCopy = async () => {
+    let resultText;
+    await copyLink()
+      .then(() => {
+        resultText = 'URL이 복사되었습니다';
+      })
+      .catch(() => {
+        resultText = 'URL 복사에 실패했습니다. 수동으로 복사해주세요.';
+      });
+
+    createToast({
+      message: resultText,
+    });
+  };
 
   return (
     <>
-      <button onClick={handleToast}>
+      <button onClick={handleClickLinkCopy}>
         <img src={IconCopyLink} alt='링크 복사 아이콘' width='40' height='40' />
       </button>
-      {isToast && (
-        <Toast message='URL이 복사되었습니다' delay={3} onClose={setIsToast} />
-      )}
     </>
   );
 }
