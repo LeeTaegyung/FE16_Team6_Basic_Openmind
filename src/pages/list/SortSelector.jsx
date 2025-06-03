@@ -50,11 +50,11 @@ function SortSelector() {
       <button className={`sortBtn ${isOpen ? 'isActive' : null}`}>
         {sortObj[order]}
         <ArrowUp
-          className={isOpen ? 'show' : null}
+          className={!isOpen ? 'show' : null}
           aria-label='정렬 드롭다운 올리기'
         />
         <ArrowDown
-          className={!isOpen ? 'show' : null}
+          className={isOpen ? 'show' : null}
           aria-label='정렬 드롭다운 내리기'
         />
       </button>
