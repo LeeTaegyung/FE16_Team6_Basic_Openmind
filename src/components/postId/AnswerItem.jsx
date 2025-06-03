@@ -7,6 +7,7 @@ import Badge from '../Badge';
 import DislikeButton from '../DislikeButton';
 import LikeButton from '../LikeButton';
 import AnswerBox from './AnswerBox';
+import { appendToLocalStorageArray } from './appendToLocalStorageArray';
 import QuestionBox from './QuestionBox';
 
 function AnswerItem({ subjectInfo, result }) {
@@ -18,7 +19,7 @@ function AnswerItem({ subjectInfo, result }) {
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const storageItem = localStorage.getItem('reaction');
-  const reaction = JSON.parse(storageItem);
+  const reactionList = JSON.parse(storageItem);
 
   const handleLikeClick = () => {
     axios.post(`${baseUrl}/questions/${result.id}/reaction/`, {
@@ -27,13 +28,10 @@ function AnswerItem({ subjectInfo, result }) {
     setLikeCount((prev) => prev + 1);
     setIsLikePressed(true);
     setIsReactionPressed(true);
-    localStorage.setItem(
-      'reaction',
-      JSON.stringify({
-        questionId: result.id,
-        reaction: 'like',
-      }),
-    );
+    appendToLocalStorageArray('reaction', {
+      questionId: result.id,
+      reaction: 'like',
+    });
   };
 
   const handleDislikeClick = () => {
@@ -42,23 +40,22 @@ function AnswerItem({ subjectInfo, result }) {
     });
     setIsDislikePressed(true);
     setIsReactionPressed(true);
-    localStorage.setItem(
-      'reaction',
-      JSON.stringify({
-        questionId: result.id,
-        reaction: 'dislike',
-      }),
-    );
+    appendToLocalStorageArray('reaction', {
+      questionId: result.id,
+      reaction: 'dislike',
+    });
   };
 
   useEffect(() => {
-    if (reaction && reaction.questionId === result.id) {
-      setIsReactionPressed(true);
-      if (reaction.reaction === 'like') setIsLikePressed(true);
-      else if (reaction.reaction === 'dislike') setIsDislikePressed(true);
-    } else {
-      return;
-    }
+    reactionList.map((el) => {
+      if (el.questionId === result.id) {
+        setIsReactionPressed(true);
+        if (el.reaction === 'like') setIsLikePressed(true);
+        else if (el.reaction === 'dislike') setIsDislikePressed(true);
+      } else {
+        return;
+      }
+    });
   }, []);
 
   return (
