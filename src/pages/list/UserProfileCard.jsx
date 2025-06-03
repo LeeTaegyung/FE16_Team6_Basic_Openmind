@@ -1,6 +1,6 @@
 import QuestionCountIcon from '@assets/icons/QuestionCountIcon.svg?react';
-import styled from 'styled-components';
 import UserImageTest from '@assets/images/UserImageTest.png';
+import styled from 'styled-components';
 
 function UserProfile({ user }) {
   return (
@@ -30,7 +30,6 @@ const ProfileCard = styled.div`
   .user-img {
     width: 48px;
     height: 48px;
-    background-color: #e0abe0;
     border-radius: 50%;
   }
 

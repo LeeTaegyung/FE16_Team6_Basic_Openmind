@@ -38,7 +38,6 @@ const UserListContainer = styled.div`
     justify-content: space-between;
 
     h2 {
-      font-size: var(--font-size-24);
       font-size: ${({ theme }) => theme.fontSize.fz24};
       line-height: 1.2;
       font-weight: 400;
@@ -56,7 +55,6 @@ const UserListContainer = styled.div`
 
       h2 {
         font-size: ${({ theme }) => theme.fontSize.fz40};
-        height: 48px;
       }
     }
 
