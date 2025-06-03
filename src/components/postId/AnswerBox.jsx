@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
+import { relativeTimeCalculator } from './relativeTimeCalculator';
+
 function AnswerBox({ subjectInfo, children }) {
+  const time = relativeTimeCalculator(children.createdAt);
   return (
     <AnswerBoxWrapper>
       <AnswerBoxSubjectImage
@@ -10,7 +13,7 @@ function AnswerBox({ subjectInfo, children }) {
       <div>
         <AnswerBoxUpperlineWrapper>
           <AnswerBoxSubjectname>{subjectInfo.name}</AnswerBoxSubjectname>
-          <AnswerBoxCreatedAt>{children.createdAt}</AnswerBoxCreatedAt>
+          <AnswerBoxCreatedAt>{time}</AnswerBoxCreatedAt>
         </AnswerBoxUpperlineWrapper>
         {children.isRejected ? (
           <AnswerBoxText isRejected={children.isRejected}>
