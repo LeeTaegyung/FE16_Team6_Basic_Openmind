@@ -1,4 +1,4 @@
-import IconKakaoShare from '../../../assets/icons/IconKakaoShare.svg';
+import IconKakaoShare from '@assets/icons/IconKakaoShare.svg';
 
 function KakaoShareButton() {
   return (

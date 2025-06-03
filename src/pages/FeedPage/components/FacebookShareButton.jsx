@@ -1,4 +1,4 @@
-import IconFacebookShare from '../../../assets/icons/IconFacebookShare.svg';
+import IconFacebookShare from '@assets/icons/IconFacebookShare.svg';
 
 function FacebookShareButton() {
   return (

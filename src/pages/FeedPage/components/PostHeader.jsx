@@ -1,30 +1,27 @@
+import PostHeaderBg from '@assets/images/PostHeaderBg.jpg';
 import Logo from '@components/Logo';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
-import PostHeaderBg from '../../../assets/images/PostHeaderBg.jpg';
 
 function PostHeader() {
   return (
-    <PostHeaderStyle>
-      <h1 className='logo'>
-        <Link to='/'>
-          <Logo />
-        </Link>
-      </h1>
-      <div className='user-info'>
+    <PostHeaderWrapper>
+      <PostTitle>
+        <Logo className='logo' />
+      </PostTitle>
+      <UserInfo>
         <UserThumbnail>
           <img
             src='https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8'
             alt={`유저이름의 프로필 이미지`}
           />
         </UserThumbnail>
-        <h2 className='user-name'>아초는고양이가뭔데</h2>
-      </div>
-      <ul className='post-utils'>
+        <UserName>아초는고양이가뭔데</UserName>
+      </UserInfo>
+      <PostUtils>
         <li>
           <LinkCopyButton />
         </li>
@@ -34,65 +31,32 @@ function PostHeader() {
         <li>
           <FacebookShareButton />
         </li>
-      </ul>
-    </PostHeaderStyle>
+      </PostUtils>
+    </PostHeaderWrapper>
   );
 }
 
 export default PostHeader;
 
-const PostHeaderStyle = styled.div`
+const PostHeaderWrapper = styled.div``;
+
+const PostTitle = styled.h1`
+  height: 177px;
   padding-top: 40px;
-  background: url(${PostHeaderBg}) top center no-repeat;
-  background-size: auto 177px;
+  background: #fff url(${PostHeaderBg}) top center no-repeat;
+  background-size: auto 100%;
 
   @media (min-width: 768px) {
+    height: 234px;
     padding-top: 50px;
-    background-size: auto 234px;
   }
-
   .logo {
+    display: block;
     width: 124px;
     margin: 0 auto;
 
-    img {
-      width: auto;
-      height: auto;
-    }
-
     @media (min-width: 768px) {
       width: 170px;
-    }
-  }
-
-  .user-info {
-    margin-top: 12px;
-    .user-name {
-      margin-top: 12px;
-      font-size: var(--font-size-24);
-      font-weight: 400;
-      color: var(--gray-60);
-      text-align: center;
-      line-height: var(--font-lh-30);
-
-      @media (min-width: 768px) {
-        font-size: var(--font-size-32);
-        line-height: var(--font-lh-40);
-      }
-    }
-  }
-
-  .post-utils {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 12px;
-    gap: 12px;
-
-    button {
-      border: none;
-      background: none;
-      border-radius: 0;
     }
   }
 `;
@@ -113,5 +77,41 @@ const UserThumbnail = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+`;
+
+const UserInfo = styled.div`
+  margin-top: -76px;
+
+  @media (min-width: 768px) {
+    margin-top: -105px;
+  }
+`;
+
+const UserName = styled.h2`
+  margin-top: 12px;
+  font-size: ${({ theme }) => theme.fontSize.fz24};
+  font-weight: 400;
+  color: ${({ theme }) => theme.color.gray60};
+  text-align: center;
+  line-height: ${({ theme }) => theme.lineHeight.lh30};
+
+  @media (min-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSize.fz32};
+    line-height: ${({ theme }) => theme.lineHeight.lh40};
+  }
+`;
+
+const PostUtils = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  gap: 12px;
+
+  button {
+    border: none;
+    background: none;
+    border-radius: 0;
   }
 `;
