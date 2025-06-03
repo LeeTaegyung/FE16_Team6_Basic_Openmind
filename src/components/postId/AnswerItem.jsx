@@ -77,7 +77,6 @@ function AnswerItem({ subjectInfo, result }) {
         />
         <DislikeButton
           onClick={handleDislikeClick}
-          questionId={result.id}
           isPressed={isDislikePressed}
           disabled={isReactionPressed}
         />
