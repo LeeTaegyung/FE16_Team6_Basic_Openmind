@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 
+import { relativeTimeCalculator } from './relativeTimeCalculator';
+
 function QuestionBox({ children }) {
+  const time = relativeTimeCalculator(children.createdAt);
   return (
     <QuestionBoxWrapper>
       <div>
         <QuestionBoxText>질문 · </QuestionBoxText>
-        <QuestionBoxCreatedAt>{children.createdAt}</QuestionBoxCreatedAt>
+        <QuestionBoxCreatedAt>{time}</QuestionBoxCreatedAt>
       </div>
       <QuestionBoxContent>{children.content}</QuestionBoxContent>
     </QuestionBoxWrapper>

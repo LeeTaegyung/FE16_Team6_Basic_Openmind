@@ -3,15 +3,19 @@ import styled from 'styled-components';
 import ThumbsUp from '../assets/ThumbsUp.svg?react';
 import { theme } from '../styles/theme';
 
-function LikeButton({ isPressed, likeCount }) {
+function LikeButton({ onClick, isPressed, disabled, likeCount }) {
   return (
-    <LikeButtonWrapper isPressed={isPressed}>
+    <LikeButtonWrapper
+      isPressed={isPressed}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <ThumbsUp
         fill={isPressed ? theme.color.blue50 : theme.color.gray40}
         height='16'
       />
       <span>좋아요</span>
-      {likeCount && <LikeCount>{likeCount}</LikeCount>}
+      {likeCount && <LikeCount isPressed={isPressed}>{likeCount}</LikeCount>}
     </LikeButtonWrapper>
   );
 }
@@ -28,12 +32,16 @@ const LikeButtonWrapper = styled.button.withConfig({
   gap: 6px;
   font-size: 14px;
   font-weight: 500;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${(props) =>
     props.isPressed ? props.theme.color.blue50 : props.theme.color.gray40};
 `;
 
-const LikeCount = styled.span`
+const LikeCount = styled.span.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isPressed',
+})`
   font-size: 14px;
   font-weight: 500;
-  color: ${({ theme }) => theme.color.blue50};
+  color: ${(props) =>
+    props.isPressed ? props.theme.color.blue50 : props.theme.color.gray40};
 `;
