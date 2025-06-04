@@ -16,7 +16,7 @@ const HomePageWrapper = styled.div`
     width: 248px;
   }
 
-  @media (min-width: 376px) {
+  @media (min-width: 375px) {
     padding: 130px 0px 150px;
     background-size: 90%;
   }
@@ -25,23 +25,19 @@ const HomePageWrapper = styled.div`
     padding: 160px 0px 300px;
     background-size: 80%;
   }
-`;
-const StyledLogo = styled(LogoImg)`
-  display: block;
-  width: 248px;
-  height: 98px;
-  margin: 0 auto 24px;
+  .logo {
+    display: block;
+    max-width: 248px;
+    width: 100%;
+    margin: 0 auto 24px;
 
-  @media (min-width: 376px) {
-    width: 380px;
-    height: 104px;
-  }
-
-  @media (min-width: 480px) {
-    width: 456px;
-    height: 180px;
+    @media (min-width: 375px) {
+      max-width: 380px;
+      width: 100%;
+    }
   }
 `;
+
 const HomePageButton = styled(ButtonBrown10)`
   position: static;
   right: 50px;
@@ -49,7 +45,7 @@ const HomePageButton = styled(ButtonBrown10)`
   margin: 0 auto;
   padding: 8px 12px;
 
-  @media (min-width: 376px) {
+  @media (min-width: 375px) {
     position: absolute;
   }
 `;
@@ -61,7 +57,7 @@ const InputWrapper = styled.div`
   background-color: ${({ theme }) => theme.color.gray10};
   border-radius: 16px;
 
-  @media (min-width: 376px) {
+  @media (min-width: 375px) {
     width: 400px;
   }
 `;
@@ -75,7 +71,7 @@ const HomeButton = styled(ButtonBrown40)`
   text-align: center;
   padding: 12px 0;
 
-  @media (min-width: 376px) {
+  @media (min-width: 375px) {
     max-width: 336px;
   }
 `;
@@ -98,7 +94,7 @@ const StyledInput = styled.input`
     border: 1px solid ${({ theme }) => theme.color.gray40};
   }
 
-  @media (min-width: 376px) {
+  @media (min-width: 375px) {
     max-width: 336px;
   }
 `;
@@ -107,10 +103,9 @@ function HomePage() {
   return (
     <ThemeProvider theme={theme}>
       <HomePageWrapper>
-        <StyledLogo />
+        <LogoImg className='logo' />
         <HomePageButton>
-          질문하러 가기
-          <ArrowRight width={18} height={18} />
+          질문하러 가기 <ArrowRight width={18} height={18} />
         </HomePageButton>
         <InputWrapper>
           <StyledInput placeholder='이름을 입력하세요' />

@@ -67,6 +67,7 @@ const StyleTextarea = styled.textarea`
   font-size: 16px;
   border-radius: 8px;
   border: none;
+  overflow: scroll;
   background: ${({ theme }) => theme.color.gray20};
 
   @media (min-width: 768px) {
