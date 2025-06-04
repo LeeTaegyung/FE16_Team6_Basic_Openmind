@@ -1,10 +1,26 @@
+import { useEffect, useRef } from 'react';
+
+import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import styled from 'styled-components';
 
 import AnswerItem from './AnswerItem';
 import Empty from '../../assets/Empty.svg?react';
 import Message from '../../assets/Messages.svg?react';
 
-function AnswerCluster({ subjectInfo, result }) {
+function AnswerCluster({ subjectInfo, result, questions, callback }) {
+  const loadingRef = useRef(null);
+  const [observe, unobserve] = useIntersectionObserver(callback);
+
+  useEffect(() => {
+    if (questions.length >= 3) {
+      observe(loadingRef.current);
+    }
+
+    if (questions.length === result.count) {
+      unobserve(loadingRef.current);
+    }
+  }, [questions, result]);
+
   return (
     <AnswerClusterBody>
       <AnswerClusterWrapper>
@@ -18,16 +34,23 @@ function AnswerCluster({ subjectInfo, result }) {
                 <>아직 질문이 없습니다.</>
               )}
             </AnswerClusterText>
-            {result.results.length !== 0 ? (
+            {result.count !== 0 ? (
               <>
-                {result.results &&
-                  result.results.map((el) => (
+                {questions &&
+                  questions.map((el) => (
                     <AnswerItem
                       key={el.id}
                       subjectInfo={subjectInfo}
                       result={el}
                     />
                   ))}
+                {questions.length === result.count ? (
+                  <AnswerClusterText ref={loadingRef}>끝!</AnswerClusterText>
+                ) : (
+                  <AnswerClusterText ref={loadingRef}>
+                    로딩중...
+                  </AnswerClusterText>
+                )}
               </>
             ) : (
               <AnswerClusterEmpty>
@@ -37,7 +60,7 @@ function AnswerCluster({ subjectInfo, result }) {
           </>
         ) : (
           <>
-            <AnswerClusterText>로딩중...</AnswerClusterText>
+            <AnswerClusterText ref={loadingRef}>로딩중...</AnswerClusterText>
           </>
         )}
       </AnswerClusterWrapper>
