@@ -12,13 +12,14 @@ function FeedPage() {
   const [subject, setSubject] = useState({});
   const [result, setResult] = useState({});
   const [questions, setQuestions] = useState([]);
-  const questionsRef = useRef(null);
+  const resultRef = useRef(null);
   const params = useParams();
 
   const subjectId = params.id;
 
   const additionalFetch = () => {
-    axios.get(questionsRef.current.next).then((res) => {
+    axios.get(resultRef.current.next).then((res) => {
+      setResult(res.data);
       setQuestions((prev) => [...prev, ...res.data.results]);
     });
   };
@@ -37,7 +38,7 @@ function FeedPage() {
   }, []);
 
   useEffect(() => {
-    questionsRef.current = result;
+    resultRef.current = result;
   }, [result]);
 
   return (
