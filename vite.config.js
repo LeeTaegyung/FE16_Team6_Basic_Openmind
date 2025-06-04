@@ -14,7 +14,6 @@ export default defineConfig({
     react(),
     svgr({
       svgrOptions: {
-        icon: true,
         replaceAttrValues: {
           '#000': 'currentColor',
           '#000000': 'currentColor',
@@ -32,6 +31,7 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@pages': path.resolve(__dirname, 'src/pages'),
+      '@service': path.resolve(__dirname, 'src/service'),
     },
   },
 });
