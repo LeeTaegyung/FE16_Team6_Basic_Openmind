@@ -1,9 +1,26 @@
 import LogoImg from '@components/Logo';
 import styled from 'styled-components';
 import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
+import { useModal } from '@context/ModalContext';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@styles/theme';
 import { ButtonBrown40, ButtonBrown10 } from '@components/Button';
+
+function HomePage() {
+  const { openModal } = useModal();
+  return (
+    <HomePageWrapper>
+      <LogoImg className='logo' />
+      <HomePageButton onClick={openModal}>
+        질문하러 가기 <ArrowRight width={18} height={18} />
+      </HomePageButton>
+      <InputWrapper>
+        <StyledInput placeholder='이름을 입력하세요' />
+        <HomeButton>질문 받기</HomeButton>
+      </InputWrapper>
+    </HomePageWrapper>
+  );
+}
 
 const HomePageWrapper = styled.div`
   padding: 80px 0px 120px;
@@ -16,12 +33,11 @@ const HomePageWrapper = styled.div`
     width: 248px;
   }
 
-  @media (min-width: 375px) {
+  @media (min-width: 768px) {
     padding: 130px 0px 150px;
     background-size: 90%;
   }
-
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     padding: 160px 0px 300px;
     background-size: 80%;
   }
@@ -31,7 +47,7 @@ const HomePageWrapper = styled.div`
     width: 100%;
     margin: 0 auto 24px;
 
-    @media (min-width: 375px) {
+    @media (min-width: 768px) {
       max-width: 380px;
       width: 100%;
     }
@@ -45,7 +61,7 @@ const HomePageButton = styled(ButtonBrown10)`
   margin: 0 auto;
   padding: 8px 12px;
 
-  @media (min-width: 375px) {
+  @media (min-width: 768px) {
     position: absolute;
   }
 `;
@@ -57,7 +73,7 @@ const InputWrapper = styled.div`
   background-color: ${({ theme }) => theme.color.gray10};
   border-radius: 16px;
 
-  @media (min-width: 375px) {
+  @media (min-width: 768px) {
     width: 400px;
   }
 `;
@@ -71,7 +87,7 @@ const HomeButton = styled(ButtonBrown40)`
   text-align: center;
   padding: 12px 0;
 
-  @media (min-width: 375px) {
+  @media (min-width: 768px) {
     max-width: 336px;
   }
 `;
@@ -94,26 +110,8 @@ const StyledInput = styled.input`
     border: 1px solid ${({ theme }) => theme.color.gray40};
   }
 
-  @media (min-width: 375px) {
+  @media (min-width: 768px) {
     max-width: 336px;
   }
 `;
-
-function HomePage() {
-  return (
-    <ThemeProvider theme={theme}>
-      <HomePageWrapper>
-        <LogoImg className='logo' />
-        <HomePageButton>
-          질문하러 가기 <ArrowRight width={18} height={18} />
-        </HomePageButton>
-        <InputWrapper>
-          <StyledInput placeholder='이름을 입력하세요' />
-          <HomeButton>질문 받기</HomeButton>
-        </InputWrapper>
-      </HomePageWrapper>
-    </ThemeProvider>
-  );
-}
-
 export default HomePage;

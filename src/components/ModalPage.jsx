@@ -1,9 +1,41 @@
 import styled from 'styled-components';
 import UserImg from '@assets/images/ProfileImg.svg';
+import { useState } from 'react';
+import { useModal } from '@context/ModalContext';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@styles/theme';
 import { ButtonBrown40 } from '@components/Button';
 
+function Modal() {
+  const [text, setText] = useState(``);
+  const { isOpen, closeModal } = useModal();
+
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+
+  if (!isOpen) return null;
+  return (
+    <ModalBackground onClick={closeModal}>
+      <ModalWrapper onClick={(e) => e.stopPropagation()}>
+        <h2>질문을 작성하세요</h2>
+        <ButtonClose onClick={closeModal}></ButtonClose>
+        <UserName>
+          To.
+          <img src={UserImg} alt='회원 이미지' />
+          <span>아초는 고양이</span>
+        </UserName>
+        <StyleTextarea
+          id='question'
+          value={text}
+          placeholder='질문을 입력해주세요'
+          onChange={handleChange}
+        ></StyleTextarea>
+        <ModalSendButton disabled>질문 보내기</ModalSendButton>
+      </ModalWrapper>
+    </ModalBackground>
+  );
+}
 const ModalWrapper = styled.div`
   padding: 24px;
   position: fixed;
@@ -14,7 +46,13 @@ const ModalWrapper = styled.div`
   transform: translateX(-50%);
   border-radius: 24px;
   background: ${({ theme }) => theme.color.gray10};
-  box-shadow: 0 8px 24px rgba(48, 48, 48, 0.62);
+  box-shadow: ${({ theme }) => theme.boxShadow.shadow3};
+  @media (min-width: 768px) {
+    box-shadow: ${({ theme }) => theme.boxShadow.shadow2};
+  }
+  @media (min-width: 1024px) {
+    box-shadow: ${({ theme }) => theme.boxShadow.shadow3};
+  }
 
   h2 {
     font-size: 24px;
@@ -67,13 +105,11 @@ const StyleTextarea = styled.textarea`
   font-size: 16px;
   border-radius: 8px;
   border: none;
-  overflow: scroll;
   background: ${({ theme }) => theme.color.gray20};
 
   @media (min-width: 768px) {
     width: 532px;
     height: 180px;
-    overflow: scroll;
   }
 `;
 
@@ -92,28 +128,4 @@ const ModalBackground = styled.div`
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.56);
 `;
-
-function Modal({ onClose }) {
-  return (
-    <ThemeProvider theme={theme}>
-      <ModalBackground>
-        <ModalWrapper>
-          <h2>질문을 작성하세요</h2>
-          <ButtonClose onClick={onClose}></ButtonClose>
-          <UserName>
-            To.
-            <img src={UserImg} alt='회원 이미지' />
-            <span>아초는 고양이</span>
-          </UserName>
-          <StyleTextarea
-            id='question'
-            placeholder='질문을 입력해주세요'
-          ></StyleTextarea>
-          <ModalSendButton disabled>질문 보내기</ModalSendButton>
-        </ModalWrapper>
-      </ModalBackground>
-    </ThemeProvider>
-  );
-}
-
 export default Modal;

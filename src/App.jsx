@@ -12,6 +12,7 @@ function App() {
         <Route path='/home' element={<HomePage />} />
         <Route path='/modal' element={<ModalPage />} />
       </Routes>
+      <ModalPage />
       <ToastContainer />
     </>
   );
