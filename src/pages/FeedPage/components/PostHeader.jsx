@@ -106,9 +106,9 @@ const PostUtils = styled.ul`
   margin-top: 12px;
   gap: 12px;
 
-  button {
-    border: none;
-    background: none;
-    border-radius: 0;
+  a,
+  button,
+  svg {
+    display: block;
   }
 `;
