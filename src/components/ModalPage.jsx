@@ -1,14 +1,28 @@
+import axios from 'axios';
 import styled from 'styled-components';
 import UserImg from '@assets/images/ProfileImg.svg';
 import { useState } from 'react';
 import { useModal } from '@context/ModalContext';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '@styles/theme';
 import { ButtonBrown40 } from '@components/Button';
 
 function Modal() {
   const [text, setText] = useState(``);
   const { isOpen, closeModal } = useModal();
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        `https:/openmind-api.vercel.app/16-6/subjects/11028/questions/`,
+        {
+          content: text,
+        },
+      );
+      console.log('등록 성공:', response.data);
+      closeModal();
+    } catch (err) {
+      console.error('등록 실패:', err.response?.data || err);
+    }
+  };
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -22,7 +36,7 @@ function Modal() {
         <ButtonClose onClick={closeModal}></ButtonClose>
         <UserName>
           To.
-          <img src={UserImg} alt='회원 이미지' />
+          <img src={UserImg} alt='회원 이미지' width={25} height={25} />
           <span>아초는 고양이</span>
         </UserName>
         <StyleTextarea
@@ -31,7 +45,9 @@ function Modal() {
           placeholder='질문을 입력해주세요'
           onChange={handleChange}
         ></StyleTextarea>
-        <ModalSendButton disabled>질문 보내기</ModalSendButton>
+        <ModalSendButton onClick={handleSubmit} disabled={text.trim() === ''}>
+          질문 보내기
+        </ModalSendButton>
       </ModalWrapper>
     </ModalBackground>
   );

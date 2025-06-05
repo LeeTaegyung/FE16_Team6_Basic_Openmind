@@ -1,13 +1,34 @@
+import axios from 'axios';
 import LogoImg from '@components/Logo';
 import styled from 'styled-components';
 import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
+import { useState } from 'react';
 import { useModal } from '@context/ModalContext';
-import { ThemeProvider } from 'styled-components';
-import { theme } from '@styles/theme';
+import { useNavigate } from 'react-router-dom';
 import { ButtonBrown40, ButtonBrown10 } from '@components/Button';
 
 function HomePage() {
   const { openModal } = useModal();
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        'https://openmind-api.vercel.app/16-6/subjects/',
+        {
+          name: name,
+        },
+      );
+      const subjectId = response.data.id;
+
+      localStorage.setItem('subjectId', subjectId);
+      navigate(`/post/${subjectId}/answer`);
+      console.log('보냄', subjectId);
+    } catch (err) {
+      console.error('등록 실패:', err.response?.data || err);
+    }
+  };
   return (
     <HomePageWrapper>
       <LogoImg className='logo' />
@@ -15,8 +36,12 @@ function HomePage() {
         질문하러 가기 <ArrowRight width={18} height={18} />
       </HomePageButton>
       <InputWrapper>
-        <StyledInput placeholder='이름을 입력하세요' />
-        <HomeButton>질문 받기</HomeButton>
+        <StyledInput
+          placeholder='이름을 입력하세요'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <HomeButton onClick={handleSubmit}>질문 받기</HomeButton>
       </InputWrapper>
     </HomePageWrapper>
   );

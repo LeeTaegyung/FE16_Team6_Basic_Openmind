@@ -18,3 +18,5 @@ export function ModalProvider({ children }) {
 export function useModal() {
   return useContext(ModalContext);
 }
+
+export default ModalProvider;
