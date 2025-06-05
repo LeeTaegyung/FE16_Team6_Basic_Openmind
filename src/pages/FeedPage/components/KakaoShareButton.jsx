@@ -12,7 +12,7 @@ function KakaoShareButton({ name, subjectId }) {
       templateId: 121287, // 카카오톡 개발센터에서 설정한 template 설정
       templateArgs: {
         userName: name,
-        questionId: subjectId,
+        id: subjectId,
       },
     });
   };
@@ -20,7 +20,6 @@ function KakaoShareButton({ name, subjectId }) {
   useEffect(() => {
     Kakao.cleanup();
     Kakao.init(KAKAO_APP_KEY);
-    console.log(Kakao.isInitialized());
   }, []);
 
   return (

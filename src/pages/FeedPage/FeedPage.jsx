@@ -44,10 +44,8 @@ function FeedPage() {
   return (
     <>
       <PostHeader
-        name={'홍길동'}
-        imageSource={
-          'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8'
-        }
+        name={subject.name}
+        imageSource={subject.imageSource}
         subjectId={subjectId}
       />
       <AnswerCluster
