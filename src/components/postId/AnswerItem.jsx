@@ -47,6 +47,7 @@ function AnswerItem({ subjectInfo, result }) {
   };
 
   useEffect(() => {
+    if (!reactionList) return;
     reactionList.map((el) => {
       if (el.questionId === result.id) {
         setIsReactionPressed(true);
