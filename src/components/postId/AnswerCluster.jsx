@@ -1,26 +1,85 @@
+import { useEffect, useRef } from 'react';
+
+import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import styled from 'styled-components';
 
 import AnswerItem from './AnswerItem';
+import Empty from '../../assets/Empty.svg?react';
 import Message from '../../assets/Messages.svg?react';
 
-function AnswerCluster({ subjectInfo, result }) {
+function AnswerCluster({ subjectInfo, result, questions, callback }) {
+  const loadingRef = useRef(null);
+  const [observe, unobserve] = useIntersectionObserver(callback);
+
+  useEffect(() => {
+    if (questions.length >= 3) {
+      observe(loadingRef.current);
+    }
+
+    if (questions.length === result.count) {
+      unobserve(loadingRef.current);
+    }
+  }, [questions, result]);
+
   return (
-    <AnswerClusterWrapper>
-      <AnswerClusterText>
-        <Message height={24} />
-        {result.length}개의 질문이 있습니다.
-      </AnswerClusterText>
-      {result.map((el) => (
-        <AnswerItem key={el.id} subjectInfo={subjectInfo} result={el} />
-      ))}
-    </AnswerClusterWrapper>
+    <AnswerClusterBody>
+      <AnswerClusterWrapper>
+        {result ? (
+          <>
+            <AnswerClusterText>
+              <Message height={24} />
+              {result.count !== 0 ? (
+                <>{result.count}개의 질문이 있습니다.</>
+              ) : (
+                <>아직 질문이 없습니다.</>
+              )}
+            </AnswerClusterText>
+            {result.count !== 0 ? (
+              <>
+                {questions &&
+                  questions.map((el) => (
+                    <AnswerItem
+                      key={el.id}
+                      subjectInfo={subjectInfo}
+                      result={el}
+                    />
+                  ))}
+                {questions.length === result.count ? (
+                  <AnswerClusterText ref={loadingRef}>끝!</AnswerClusterText>
+                ) : (
+                  <AnswerClusterText ref={loadingRef}>
+                    로딩중...
+                  </AnswerClusterText>
+                )}
+              </>
+            ) : (
+              <AnswerClusterEmpty>
+                <Empty />
+              </AnswerClusterEmpty>
+            )}
+          </>
+        ) : (
+          <>
+            <AnswerClusterText ref={loadingRef}>로딩중...</AnswerClusterText>
+          </>
+        )}
+      </AnswerClusterWrapper>
+    </AnswerClusterBody>
   );
 }
 
 export default AnswerCluster;
 
+const AnswerClusterBody = styled.main`
+  width: 100%;
+  margin-top: 48px;
+  padding: 0px 24px;
+  display: flex;
+  justify-content: center;
+`;
+
 const AnswerClusterWrapper = styled.div`
-  max-width: 716px;
+  width: 716px;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -38,4 +97,11 @@ const AnswerClusterText = styled.span`
   gap: 8px;
   color: ${({ theme }) => theme.color.brown40};
   font-size: 20px;
+`;
+
+const AnswerClusterEmpty = styled.div`
+  width: 100%;
+  padding: 16px 0px;
+  display: flex;
+  justify-content: center;
 `;
