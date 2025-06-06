@@ -6,7 +6,7 @@ import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
 
-function PostHeader() {
+function PostHeader({ name, imageSource, subjectId }) {
   return (
     <PostHeaderWrapper>
       <PostTitle>
@@ -14,19 +14,16 @@ function PostHeader() {
       </PostTitle>
       <UserInfo>
         <UserThumbnail>
-          <img
-            src='https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8'
-            alt={`유저이름의 프로필 이미지`}
-          />
+          <img src={imageSource} alt={`${name}의 프로필 이미지`} />
         </UserThumbnail>
-        <UserName>아초는고양이가뭔데</UserName>
+        <UserName>{name}</UserName>
       </UserInfo>
       <PostUtils>
         <li>
           <LinkCopyButton />
         </li>
         <li>
-          <KakaoShareButton />
+          <KakaoShareButton name={name} subjectId={subjectId} />
         </li>
         <li>
           <FacebookShareButton />

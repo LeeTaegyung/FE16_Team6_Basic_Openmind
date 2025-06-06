@@ -1,5 +1,5 @@
 import ToastContainer from '@components/Toast';
-import FeedPage from '@pages/FeedPage';
+import FeedPage from '@pages/FeedPage/FeedPage';
 import UserList from '@pages/list/UserList';
 import { Routes, Route } from 'react-router-dom';
 

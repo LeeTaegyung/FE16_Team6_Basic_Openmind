@@ -43,7 +43,11 @@ function FeedPage() {
 
   return (
     <>
-      <PostHeader />
+      <PostHeader
+        name={subject.name}
+        imageSource={subject.imageSource}
+        subjectId={subjectId}
+      />
       <AnswerCluster
         subjectInfo={subject}
         result={result}

@@ -1,4 +1,4 @@
-import IconCopyLink from '@assets/icons/IconCopyLink.svg';
+import IconCopyLink from '@assets/icons/IconCopyLink.svg?react';
 import { useToastContext } from '@context/ToastContext';
 
 const copyLink = () => {
@@ -63,7 +63,7 @@ function LinkCopyButton() {
   return (
     <>
       <button onClick={handleClickLinkCopy}>
-        <img src={IconCopyLink} alt='링크 복사 아이콘' width='40' height='40' />
+        <IconCopyLink width='40' height='40' aria-label='링크 복사 아이콘' />
       </button>
     </>
   );
