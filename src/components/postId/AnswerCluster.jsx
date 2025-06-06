@@ -12,6 +12,7 @@ function AnswerCluster({ subjectInfo, result, questions, callback }) {
   const [observe, unobserve] = useIntersectionObserver(callback);
 
   useEffect(() => {
+    if (questions.length === 0) return;
     if (questions.length >= 3) {
       observe(loadingRef.current);
     }
