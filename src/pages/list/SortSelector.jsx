@@ -11,7 +11,6 @@ const sortObj = {
 };
 
 function SortSelector() {
-  // const [isOpen, setIsOpen] = useState(false);
   // 나중에 쿼리스트링으로 편입
   const [order, setOrder] = useState('time');
   const selectorRef = useRef();
@@ -20,14 +19,6 @@ function SortSelector() {
 
   function handleClick(key) {
     setOrder(key);
-    /* 나중에 기능이랑 합칠 때는
-  setQueryStrings((prev) => {
-      return {
-        ...prev,
-        sort: `${key}`,
-      };
-    });
-  */
   }
 
   return (
