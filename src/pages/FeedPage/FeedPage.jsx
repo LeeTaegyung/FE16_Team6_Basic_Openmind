@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import AnswerCluster from '@components/postId/AnswerCluster';
+import AnswerCluster from './components/AnswerCluster';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 

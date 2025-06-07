@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import Badge from '../Badge';
-import DislikeButton from '../DislikeButton';
-import LikeButton from '../LikeButton';
+import Badge from '../../../components/Badge';
+import DislikeButton from '../../../components/DislikeButton';
+import LikeButton from '../../../components/LikeButton';
 import AnswerBox from './AnswerBox';
-import { appendToLocalStorageArray } from './appendToLocalStorageArray';
 import QuestionBox from './QuestionBox';
+import { appendToLocalStorageArray } from '../../../functions/appendToLocalStorageArray';
 
 function AnswerItem({ subjectInfo, result }) {
   const [isLikePressed, setIsLikePressed] = useState(false);
