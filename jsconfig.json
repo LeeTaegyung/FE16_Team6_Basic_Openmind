@@ -7,11 +7,8 @@
       "@context/*": ["src/context/*"],
       "@hooks/*": ["src/hooks/*"],
       "@assets/*": ["src/assets/*"],
-      "@pages/*": ["src/pages/*"]
+      "@pages/*": ["src/pages/*"],
+      "@service/*": ["src/service/*"]
     }
   }
 }
-
-  
-
-
