@@ -4,14 +4,15 @@ import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import styled from 'styled-components';
 
 import AnswerItem from './AnswerItem';
-import Empty from '../../assets/Empty.svg?react';
-import Message from '../../assets/Messages.svg?react';
+import Empty from '../../../assets/Empty.svg?react';
+import Message from '../../../assets/Messages.svg?react';
 
 function AnswerCluster({ subjectInfo, result, questions, callback }) {
   const loadingRef = useRef(null);
   const [observe, unobserve] = useIntersectionObserver(callback);
 
   useEffect(() => {
+    if (questions.length === 0) return;
     if (questions.length >= 3) {
       observe(loadingRef.current);
     }

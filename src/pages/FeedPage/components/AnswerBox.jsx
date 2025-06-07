@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { relativeTimeCalculator } from './relativeTimeCalculator';
+import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
 function AnswerBox({ subjectInfo, children }) {
   const time = relativeTimeCalculator(children.createdAt);
