@@ -4,7 +4,9 @@ export function relativeTimeCalculator(time) {
 
   const difference = currentTime - baseTime;
 
-  if (difference <= 1000 * 60) {
+  if (difference <= 1000 || difference < 0) {
+    return '지금';
+  } else if (difference <= 1000 * 60) {
     return Math.floor(difference / 1000) + '초전';
   } else if (difference <= 1000 * 60 * 60) {
     return Math.floor(difference / (1000 * 60)) + '분전';
