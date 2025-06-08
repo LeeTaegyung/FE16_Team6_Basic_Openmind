@@ -1,11 +1,12 @@
-import axios from 'axios';
-import LogoImg from '@components/Logo';
-import styled from 'styled-components';
-import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
 import { useState } from 'react';
-import { useModal } from '@context/ModalContext';
-import { useNavigate } from 'react-router-dom';
+
+import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
 import { ButtonBrown40, ButtonBrown10 } from '@components/Button';
+import LogoImg from '@components/Logo';
+import { useModal } from '@context/ModalContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 function HomePage() {
   const { openModal } = useModal();

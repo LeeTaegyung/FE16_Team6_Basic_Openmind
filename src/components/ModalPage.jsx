@@ -1,9 +1,10 @@
+import { useState } from 'react';
+
+import UserImg from '@assets/images/ProfileImg.svg';
+import { ButtonBrown40 } from '@components/Button';
+import { useModal } from '@context/ModalContext';
 import axios from 'axios';
 import styled from 'styled-components';
-import UserImg from '@assets/images/ProfileImg.svg';
-import { useState } from 'react';
-import { useModal } from '@context/ModalContext';
-import { ButtonBrown40 } from '@components/Button';
 
 function Modal() {
   const [text, setText] = useState(``);
