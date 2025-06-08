@@ -1,27 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useToastContext } from '@context/ToastContext';
 import { createPortal } from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
-const TIMEOUT_DELAY = 5000; // ms
-const ANIMATION_DURATION = 500; // ms
+const TOAST_DELAY = 5000; // ms
+const TOAST_DURATION = 500; // ms
+const TOAST_HEIGHT = 40;
+const TOAST_GAP = 10;
 
 // Toast 컴포넌트
-function Toast({ message, id, delay = TIMEOUT_DELAY }) {
+function Toast({ message, id, delay = TOAST_DELAY, order }) {
   const { deleteToast } = useToastContext();
+  const toastRef = useRef();
 
   useEffect(() => {
     const TIMER = setTimeout(() => {
       deleteToast(id); // 해당 하는 id의 토스트를 삭제
-    }, delay + ANIMATION_DURATION);
+    }, delay + TOAST_DURATION);
 
     return () => {
       clearTimeout(TIMER);
     };
   }, []);
 
-  return <StyledToast $delay={delay}>{message}</StyledToast>;
+  return (
+    <StyledToast $delay={delay} $order={order} ref={toastRef}>
+      {message}
+    </StyledToast>
+  );
 }
 
 // ToastContainer 컴포넌트
@@ -33,12 +40,13 @@ export default function ToastContainer() {
 
   return createPortal(
     <StyledToastContainer>
-      {toasts.map((toast) => (
+      {toasts.map((toast, id) => (
         <Toast
           key={toast.id}
           id={toast.id}
           message={toast.message}
           delay={toast.delay}
+          order={toasts.length - id}
         />
       ))}
     </StyledToastContainer>,
@@ -48,7 +56,7 @@ export default function ToastContainer() {
 
 const toastShow = keyframes`
     0% {
-      transform: translateY(20px);
+      transform: translateY(40px);
       opacity: 0;
     }
     100% {
@@ -69,11 +77,9 @@ const toastHide = keyframes`
 `;
 
 const StyledToastContainer = styled.div`
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 15px;
+  justify-content: center;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -84,6 +90,8 @@ const StyledToastContainer = styled.div`
 `;
 
 const StyledToast = styled.div`
+  position: absolute;
+  bottom: ${({ $order }) => $order * (TOAST_HEIGHT + TOAST_GAP)}px;
   padding: 12px 20px;
   font-size: ${({ theme }) => theme.fontSize.fz14};
   font-weight: 500;
@@ -92,7 +100,8 @@ const StyledToast = styled.div`
   border-radius: 8px;
   box-shadow: ${({ theme }) => theme.boxShadow.shadow2};
   animation:
-    ${toastShow} ${ANIMATION_DURATION}ms ease forwards,
-    ${toastHide} ${ANIMATION_DURATION}ms ease forwards
-      ${({ $delay }) => $delay || TIMEOUT_DELAY}ms;
+    ${toastShow} ${TOAST_DURATION}ms ease forwards,
+    ${toastHide} ${TOAST_DURATION}ms ease forwards
+      ${({ $delay }) => $delay || TOAST_DELAY}ms;
+  transition: all ${TOAST_DURATION * 0.7}ms ease;
 `;
