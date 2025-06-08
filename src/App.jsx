@@ -1,5 +1,5 @@
 import ToastContainer from '@components/Toast';
-import FeedPage from '@pages/FeedPage';
+import FeedPage from '@pages/FeedPage/FeedPage';
 import HomePage from '@pages/HomePage/HomePage';
 import ModalPage from '@components/ModalPage';
 import UserList from '@pages/list/UserList';
