@@ -86,6 +86,7 @@ const UserListContainer = styled.div`
       gap: 12px;
       text-align: center;
       align-items: center;
+      padding: 0;
       margin-top: 40px;
       margin-bottom: 30px;
 
