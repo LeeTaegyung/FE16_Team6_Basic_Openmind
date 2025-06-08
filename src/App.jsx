@@ -1,5 +1,5 @@
 import ToastContainer from '@components/Toast';
-import FeedPage from '@pages/FeedPage';
+import FeedPage from '@pages/FeedPage/FeedPage';
 import HomePage from '@pages/HomePage/HomePage';
 import ModalPage from '@components/ModalPage';
 import UserList from '@pages/list/UserList';
@@ -10,7 +10,7 @@ function App() {
     <>
       <Routes>
         <Route path='/post/:id' element={<FeedPage />} />
-        <Route path='/home' element={<HomePage />} />
+        <Route path='/' element={<HomePage />} />
         <Route path='/modal' element={<ModalPage />} />
         <Route path='/list' element={<UserList />} />
       </Routes>
