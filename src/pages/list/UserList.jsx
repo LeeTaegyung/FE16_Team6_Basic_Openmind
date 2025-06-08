@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+
 import { useLoadItemsByQuery } from '@hooks/useLoadItemsByQuery';
+import { useResize } from '@hooks/useResize';
 import styled from 'styled-components';
 
 import ListHeader from './ListHeader';
@@ -9,6 +12,19 @@ import UserProfile from './UserProfileCard';
 function UserList() {
   // 해당 훅 마운트 될 때 아이템들 로드
   const [result, queryStrings, setQueryStrings] = useLoadItemsByQuery();
+  const [limit] = useResize();
+
+  useEffect(() => {
+    if (!limit) return;
+
+    setQueryStrings((prev) => {
+      if (limit === prev.limit) return prev;
+      return {
+        ...prev,
+        limit,
+      };
+    });
+  }, [limit]);
 
   return (
     <UserListContainer>

@@ -15,6 +15,8 @@ export function useLoadItemsByQuery() {
 
   // 쿼리스트링 바뀌면 요청 다시
   useEffect(() => {
+    if (!queryStrings?.limit) return; //limit아직 설정 안되었으면 하지마
+
     //변경된 값 세션에 저장해줄래?
     sessionStorage.setItem('prevQuery', JSON.stringify(queryStrings));
 
