@@ -6,13 +6,20 @@ import styled from 'styled-components';
 
 import ListHeader from './ListHeader';
 import Pagination from './Pagination';
+import SkeletonUi from './SkeletonUi';
 import SortSelector from './SortSelector';
 import UserProfile from './UserProfileCard';
 
 function UserList() {
   // 해당 훅 마운트 될 때 아이템들 로드
-  const [result, queryStrings, setQueryStrings] = useLoadItemsByQuery();
+  const [result, queryStrings, setQueryStrings, isLoading] =
+    useLoadItemsByQuery();
   const [limit] = useResize();
+
+  //지금 화면에 보이는 유저 수
+  const loadedCount = result.results?.length || 0;
+  //로딩 중일 때는 쿼리로 보낸 limit값 - 유저수만큼 스켈레톤 채워줘
+  const skeletonCount = isLoading ? Math.max(limit - loadedCount, 0) : 0;
 
   useEffect(() => {
     if (!limit) return;
@@ -41,6 +48,10 @@ function UserList() {
           {result.results?.map((user) => {
             return <UserProfile key={user.id} user={user} />;
           })}
+          {isLoading &&
+            Array.from({ length: skeletonCount }).map((_, i) => (
+              <SkeletonUi key={`loading${i}`} />
+            ))}
         </UserGrid>
       </main>
       <Pagination
