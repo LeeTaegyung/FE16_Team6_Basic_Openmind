@@ -19,7 +19,6 @@ function Modal({ onClose, setQuestions, name, imageSource }) {
           content: text,
         },
       );
-      console.log('등록 성공:', response.data);
       setQuestions((questions) => [response.data, ...questions]);
       onClose();
     } catch (err) {
@@ -38,7 +37,6 @@ function Modal({ onClose, setQuestions, name, imageSource }) {
         </h2>
         <ButtonClose
           onClick={() => {
-            console.log('배경 클릭으로 닫기!');
             onClose();
           }}
         >
