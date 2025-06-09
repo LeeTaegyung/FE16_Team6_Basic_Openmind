@@ -17,7 +17,6 @@ const FloatingButton = () => {
 };
 
 export default FloatingButton;
-
 const StyledFloatingButton = styled.button`
   position: fixed;
   bottom: 24px;

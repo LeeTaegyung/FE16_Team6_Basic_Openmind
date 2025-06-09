@@ -1,18 +1,23 @@
 import styled from 'styled-components';
-import UserImg from '@assets/images/ProfileImg.svg';
-import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.png';
-import ModalClose from '@assets/images/icons/ModalClose.png';
+import axios from 'axios';
+import UserImg from '@assets/images/ProfileImg.svg?rect';
+import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?rect';
+import ModalClose from '@assets/images/icons/ModalClose.svg?rect';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { ButtonBrown40 } from '@components/Button';
 
-function Modal({ isOpen, onClose }) {
+function Modal({ onClose }) {
   const [text, setText] = useState('');
+  const { id: subjectId } = useParams();
 
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        `https:/openmind-api.vercel.app/16-6/subjects/11028/questions/`,
-        { content: text },
+        `${import.meta.env.VITE_BASE_URL}/subjects/${subjectId}/questions/`,
+        {
+          content: text,
+        },
       );
       console.log('등록 성공:', response.data);
       onClose();
@@ -23,13 +28,31 @@ function Modal({ isOpen, onClose }) {
 
   const handleChange = (e) => setText(e.target.value);
 
-  if (!isOpen) return null;
-
   return (
     <ModalBackground onClick={onClose}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
-        <h2>질문을 작성하세요</h2>
-        <ButtonClose onClick={onClose} />
+        <h2>
+          <img
+            src={ModalTitleIcon}
+            alt='모달 아이콘 이미지'
+            width={28}
+            height={28}
+          />
+          질문을 작성하세요
+        </h2>
+        <ButtonClose
+          onClick={() => {
+            console.log('배경 클릭으로 닫기!');
+            onClose();
+          }}
+        >
+          <img
+            src={ModalClose}
+            alt='모달닫기 버튼 이미지'
+            width={28}
+            height={28}
+          />
+        </ButtonClose>
         <UserName>
           To.
           <img src={UserImg} alt='회원 이미지' width={25} height={25} />
@@ -67,13 +90,14 @@ const ModalWrapper = styled.div`
   }
 
   h2 {
+    display: flex;
     font-size: 24px;
     margin-bottom: 40px;
-    padding-left: 36px;
-    background-image: url(${ModalTitleIcon});
-    background-size: 28px;
-    background-repeat: no-repeat;
     background-position: left;
+
+    img {
+      margin-right: 10px;
+    }
   }
 
   @media (min-width: 768px) {
@@ -90,8 +114,6 @@ const ButtonClose = styled.button`
   top: 24px;
   width: 28px;
   height: 28px;
-  background: url(${ModalClose});
-  background-size: 100%;
 
   @media (min-width: 768px) {
     right: 40px;

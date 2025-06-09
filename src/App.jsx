@@ -14,7 +14,6 @@ function App() {
         <Route path='/modal' element={<Modal />} />
         <Route path='/list' element={<UserList />} />
       </Routes>
-      <Modal />
       <ToastContainer />
     </>
   );
