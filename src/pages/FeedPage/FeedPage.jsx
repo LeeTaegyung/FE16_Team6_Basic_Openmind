@@ -6,13 +6,12 @@ import { useParams } from 'react-router-dom';
 
 import FloatingButton from './components/FloatingButton';
 import PostHeader from './components/PostHeader';
-import { useQuestionsSetter } from '@context/AnswerContext';
 
 function FeedPage() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [subject, setSubject] = useState({});
   const [result, setResult] = useState({});
-  const setQuestions = useQuestionsSetter();
+  const [questions, setQuestions] = useState([]);
   const resultRef = useRef(null);
   const params = useParams();
 
@@ -52,6 +51,7 @@ function FeedPage() {
       <AnswerCluster
         subjectInfo={subject}
         result={result}
+        questions={questions}
         callback={additionalFetch}
       />
       <FloatingButton />

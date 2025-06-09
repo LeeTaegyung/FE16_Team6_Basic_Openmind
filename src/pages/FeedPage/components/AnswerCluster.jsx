@@ -6,12 +6,10 @@ import styled from 'styled-components';
 import AnswerItem from './AnswerItem';
 import Empty from '../../../assets/Empty.svg?react';
 import Message from '../../../assets/Messages.svg?react';
-import { useQuestions } from '@context/AnswerContext';
 
-function AnswerCluster({ subjectInfo, result, callback }) {
+function AnswerCluster({ subjectInfo, result, questions, callback }) {
   const loadingRef = useRef(null);
   const [observe, unobserve] = useIntersectionObserver(callback);
-  const questions = useQuestions();
 
   useEffect(() => {
     if (questions.length === 0) return;
@@ -27,44 +25,30 @@ function AnswerCluster({ subjectInfo, result, callback }) {
   return (
     <AnswerClusterBody>
       <AnswerClusterWrapper>
-        {result ? (
+        <AnswerClusterText>
+          <Message height={24} />
+          {result.count !== 0 ? (
+            <>{result.count}개의 질문이 있습니다.</>
+          ) : (
+            <>아직 질문이 없습니다.</>
+          )}
+        </AnswerClusterText>
+        {result.count !== 0 ? (
           <>
-            <AnswerClusterText>
-              <Message height={24} />
-              {result.count !== 0 ? (
-                <>{result.count}개의 질문이 있습니다.</>
-              ) : (
-                <>아직 질문이 없습니다.</>
-              )}
-            </AnswerClusterText>
-            {result.count !== 0 ? (
-              <>
-                {questions &&
-                  questions.map((el) => (
-                    <AnswerItem
-                      key={el.id}
-                      subjectInfo={subjectInfo}
-                      result={el}
-                    />
-                  ))}
-                {questions.length === result.count ? (
-                  <AnswerClusterText ref={loadingRef}>끝!</AnswerClusterText>
-                ) : (
-                  <AnswerClusterText ref={loadingRef}>
-                    로딩중...
-                  </AnswerClusterText>
-                )}
-              </>
+            {questions &&
+              questions.map((el) => (
+                <AnswerItem key={el.id} subjectInfo={subjectInfo} result={el} />
+              ))}
+            {questions.length === result.count ? (
+              <AnswerClusterText ref={loadingRef}>끝!</AnswerClusterText>
             ) : (
-              <AnswerClusterEmpty>
-                <Empty />
-              </AnswerClusterEmpty>
+              <AnswerClusterText ref={loadingRef}>로딩중...</AnswerClusterText>
             )}
           </>
         ) : (
-          <>
-            <AnswerClusterText ref={loadingRef}>로딩중...</AnswerClusterText>
-          </>
+          <AnswerClusterEmpty>
+            <Empty />
+          </AnswerClusterEmpty>
         )}
       </AnswerClusterWrapper>
     </AnswerClusterBody>
