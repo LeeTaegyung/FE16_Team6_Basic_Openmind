@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import axios from 'axios';
-import UserImg from '@assets/images/ProfileImg.svg';
-import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
-import ModalClose from '@assets/images/icons/ModalClose.svg?react';
-import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { ButtonBrown40 } from '@components/Button';
 
-function Modal({ onClose }) {
+import ModalClose from '@assets/images/icons/ModalClose.svg?react';
+import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
+import { ButtonBrown40 } from '@components/Button';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+
+function Modal({ onClose, setQuestions, name, imageSource }) {
   const [text, setText] = useState('');
   const { id: subjectId } = useParams();
 
@@ -20,6 +20,7 @@ function Modal({ onClose }) {
         },
       );
       console.log('등록 성공:', response.data);
+      setQuestions((questions) => [response.data, ...questions]);
       onClose();
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);
@@ -45,8 +46,8 @@ function Modal({ onClose }) {
         </ButtonClose>
         <UserName>
           To.
-          <img src={UserImg} alt='회원 이미지' width={25} height={25} />
-          <span>아초는 고양이</span>
+          <img src={imageSource} alt='회원 이미지' width={25} height={25} />
+          <span>{name}</span>
         </UserName>
         <StyleTextarea
           id='question'
