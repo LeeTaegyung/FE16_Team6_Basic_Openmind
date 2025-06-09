@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
-export function useResize() {
+export function useResizeLimit() {
   const resizeTimer = useRef(null);
   const [innerWidth, setInnerWidth] = useState(null);
   const [limit, setLimit] = useState(0);
@@ -28,5 +28,5 @@ export function useResize() {
     setLimit(newLimit);
   }, [innerWidth]);
 
-  return [limit];
+  return limit;
 }

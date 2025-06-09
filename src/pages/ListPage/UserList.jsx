@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useLoadItemsByQuery } from '@hooks/useLoadItemsByQuery';
-import { useResize } from '@hooks/useResize';
+import { useResizeLimit } from '@hooks/useResizeLimit';
 import styled from 'styled-components';
 
 import ListHeader from './ListHeader';
@@ -14,7 +14,7 @@ function UserList() {
   // 해당 훅 마운트 될 때 아이템들 로드
   const [result, queryStrings, setQueryStrings, isLoading] =
     useLoadItemsByQuery();
-  const [limit] = useResize();
+  const limit = useResizeLimit();
 
   //지금 화면에 보이는 유저 수
   const loadedCount = result.results?.length || 0;
