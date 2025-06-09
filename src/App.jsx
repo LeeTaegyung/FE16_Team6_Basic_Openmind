@@ -11,7 +11,6 @@ function App() {
       <Routes>
         <Route path='/post/:id' element={<FeedPage />} />
         <Route path='/' element={<HomePage />} />
-        <Route path='/modal' element={<Modal />} />
         <Route path='/list' element={<UserList />} />
       </Routes>
       <ToastContainer />
