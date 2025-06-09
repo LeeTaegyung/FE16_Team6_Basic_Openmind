@@ -4,6 +4,7 @@ import Empty from '@assets/icons/Empty.svg?react';
 import Message from '@assets/icons/Messages.svg?react';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import styled from 'styled-components';
+
 import AnswerItem from './AnswerItem';
 
 function AnswerCluster({ subjectInfo, result, questions, callback }) {

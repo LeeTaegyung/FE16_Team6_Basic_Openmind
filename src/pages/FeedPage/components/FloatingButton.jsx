@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+
 import Modal from '@components/Modal';
+import styled from 'styled-components';
 
 const viewTxt = window.innerWidth < 768 ? '질문 작성' : '질문 작성하기';
 
