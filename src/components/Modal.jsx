@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import UserImg from '@assets/images/ProfileImg.svg?rect';
-import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?rect';
-import ModalClose from '@assets/images/icons/ModalClose.svg?rect';
+import UserImg from '@assets/images/ProfileImg.svg?react';
+import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
+import ModalClose from '@assets/images/icons/ModalClose.svg?react';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { ButtonBrown40 } from '@components/Button';
