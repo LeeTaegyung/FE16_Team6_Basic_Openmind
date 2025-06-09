@@ -25,10 +25,7 @@ export function useResize() {
   useEffect(() => {
     if (!innerWidth) return;
     const newLimit = innerWidth < 868 ? 6 : 8;
-    setLimit((prev) => {
-      if (prev === newLimit) return; //limit값이 바뀌지 않았으면 set하지마!
-      return newLimit;
-    });
+    setLimit(newLimit);
   }, [innerWidth]);
 
   return [limit];
