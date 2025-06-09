@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
+import HomePageBg from '@assets/images/HomePageBg.jpg';
 import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
+import Person from '@assets/images/icons/Person.png';
 import { ButtonBrown40, ButtonBrown10 } from '@components/Button';
 import LogoImg from '@components/Logo';
-import { useModal } from '@context/ModalContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function HomePage() {
-  const { openModal } = useModal();
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ function HomePage() {
   return (
     <HomePageWrapper>
       <LogoImg className='logo' />
-      <HomePageButton onClick={openModal}>
+      <HomePageButton>
         질문하러 가기 <ArrowRight width={18} height={18} />
       </HomePageButton>
       <InputWrapper>
@@ -51,7 +51,7 @@ function HomePage() {
 const HomePageWrapper = styled.div`
   padding: 80px 0px 120px;
   background-size: 120%;
-  background-image: url(src/assets/images/HomePageBg.jpg);
+  background-image: url(${HomePageBg});
   background-repeat: no-repeat;
   background-position: bottom center;
 
@@ -127,7 +127,7 @@ const StyledInput = styled.input`
   margin: 0 auto 16px;
   border: 1px solid ${({ theme }) => theme.color.gray40};
   border-radius: 8px;
-  background-image: url(src/assets/images/icons/Person.png);
+  background-image: url(${Person});
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: left 16px center;

@@ -1,6 +1,5 @@
 import { StrictMode } from 'react';
 
-import ModalProvider from '@context/ModalContext';
 import ToastProvider from '@context/ToastContext';
 import { GlobalStyle } from '@styles/GlobalStyle.jsx';
 import { theme } from '@styles/theme.js';
@@ -15,11 +14,9 @@ createRoot(document.getElementById('root')).render(
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
-        <ModalProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
-        </ModalProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,

@@ -1,13 +1,23 @@
+import { useState } from 'react';
+
+import Modal from '@components/Modal';
 import styled from 'styled-components';
 
 const viewTxt = window.innerWidth < 768 ? '질문 작성' : '질문 작성하기';
 
 const FloatingButton = () => {
-  return <StyledFloatingButton>{viewTxt}</StyledFloatingButton>;
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      {isOpen && <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+      <StyledFloatingButton onClick={() => setIsOpen(true)}>
+        {viewTxt}
+      </StyledFloatingButton>
+    </>
+  );
 };
 
 export default FloatingButton;
-
 const StyledFloatingButton = styled.button`
   position: fixed;
   bottom: 24px;
