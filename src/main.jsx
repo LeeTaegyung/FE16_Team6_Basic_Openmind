@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import App from './App.jsx';
+import AnswerProvider from '@context/AnswerContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <ModalProvider>
           <ToastProvider>
-            <App />
+            <AnswerProvider>
+              <App />
+            </AnswerProvider>
           </ToastProvider>
         </ModalProvider>
       </BrowserRouter>

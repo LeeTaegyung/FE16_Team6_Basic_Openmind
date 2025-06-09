@@ -6,10 +6,12 @@ import styled from 'styled-components';
 import AnswerItem from './AnswerItem';
 import Empty from '../../../assets/Empty.svg?react';
 import Message from '../../../assets/Messages.svg?react';
+import { useQuestions } from '@context/AnswerContext';
 
-function AnswerCluster({ subjectInfo, result, questions, callback }) {
+function AnswerCluster({ subjectInfo, result, callback }) {
   const loadingRef = useRef(null);
   const [observe, unobserve] = useIntersectionObserver(callback);
+  const questions = useQuestions();
 
   useEffect(() => {
     if (questions.length === 0) return;
