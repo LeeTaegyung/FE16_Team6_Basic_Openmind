@@ -1,4 +1,3 @@
-import Modal from '@components/Modal';
 import ToastContainer from '@components/Toast';
 import FeedPage from '@pages/FeedPage/FeedPage';
 import HomePage from '@pages/HomePage/HomePage';
