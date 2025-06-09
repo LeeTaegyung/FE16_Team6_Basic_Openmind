@@ -1,39 +1,58 @@
-import axios from 'axios';
 import styled from 'styled-components';
-import UserImg from '@assets/images/ProfileImg.svg';
+import axios from 'axios';
+import UserImg from '@assets/images/ProfileImg.svg?react';
+import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
+import ModalClose from '@assets/images/icons/ModalClose.svg?react';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { useModal } from '@context/ModalContext';
 import { ButtonBrown40 } from '@components/Button';
 
-function Modal() {
-  const [text, setText] = useState(``);
-  const { isOpen, closeModal } = useModal();
+function Modal({ onClose }) {
+  const [text, setText] = useState('');
+  const { id: subjectId } = useParams();
 
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        `https:/openmind-api.vercel.app/16-6/subjects/11028/questions/`,
+        `${import.meta.env.VITE_BASE_URL}/subjects/${subjectId}/questions/`,
         {
           content: text,
         },
       );
       console.log('등록 성공:', response.data);
-      closeModal();
+      onClose();
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);
     }
   };
 
-  const handleChange = (e) => {
-    setText(e.target.value);
-  };
+  const handleChange = (e) => setText(e.target.value);
 
-  if (!isOpen) return null;
   return (
-    <ModalBackground onClick={closeModal}>
+    <ModalBackground onClick={onClose}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
-        <h2>질문을 작성하세요</h2>
-        <ButtonClose onClick={closeModal}></ButtonClose>
+        <h2>
+          <img
+            src={ModalTitleIcon}
+            alt='모달 아이콘 이미지'
+            width={28}
+            height={28}
+          />
+          질문을 작성하세요
+        </h2>
+        <ButtonClose
+          onClick={() => {
+            console.log('배경 클릭으로 닫기!');
+            onClose();
+          }}
+        >
+          <img
+            src={ModalClose}
+            alt='모달닫기 버튼 이미지'
+            width={28}
+            height={28}
+          />
+        </ButtonClose>
         <UserName>
           To.
           <img src={UserImg} alt='회원 이미지' width={25} height={25} />
@@ -44,7 +63,7 @@ function Modal() {
           value={text}
           placeholder='질문을 입력해주세요'
           onChange={handleChange}
-        ></StyleTextarea>
+        />
         <ModalSendButton onClick={handleSubmit} disabled={text.trim() === ''}>
           질문 보내기
         </ModalSendButton>
@@ -71,13 +90,14 @@ const ModalWrapper = styled.div`
   }
 
   h2 {
+    display: flex;
     font-size: 24px;
     margin-bottom: 40px;
-    padding-left: 36px;
-    background-image: url(src/assets/images/icons/ModalTitleIcon.png);
-    background-size: 28px;
-    background-repeat: no-repeat;
     background-position: left;
+
+    img {
+      margin-right: 10px;
+    }
   }
 
   @media (min-width: 768px) {
@@ -94,8 +114,6 @@ const ButtonClose = styled.button`
   top: 24px;
   width: 28px;
   height: 28px;
-  background: url(src/assets/images/icons/ModalClose.png);
-  background-size: 100%;
 
   @media (min-width: 768px) {
     right: 40px;
@@ -111,6 +129,7 @@ const UserName = styled.div`
   img {
     display: block;
     margin: 0 4px;
+    border-radius: 50%;
   }
 `;
 
@@ -121,6 +140,7 @@ const StyleTextarea = styled.textarea`
   font-size: 16px;
   border-radius: 8px;
   border: none;
+  resize: none;
   background: ${({ theme }) => theme.color.gray20};
 
   @media (min-width: 768px) {
