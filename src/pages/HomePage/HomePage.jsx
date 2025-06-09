@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
 import HomePageBg from '@assets/images/HomePageBg.jpg';
 import Person from '@assets/images/icons/Person.png';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ButtonBrown40, ButtonBrown10 } from '@components/Button';
 
 function HomePage() {
-  const { openModal } = useModal();
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ function HomePage() {
   return (
     <HomePageWrapper>
       <LogoImg className='logo' />
-      <HomePageButton onClick={openModal}>
+      <HomePageButton to='/list'>
         질문하러 가기 <ArrowRight width={18} height={18} />
       </HomePageButton>
       <InputWrapper>
@@ -54,18 +54,21 @@ const HomePageWrapper = styled.div`
   background-image: url(${HomePageBg});
   background-repeat: no-repeat;
   background-position: bottom center;
-
+  min-height: 611px;
+  height: 100vh;
   img {
     width: 248px;
   }
 
   @media (min-width: 768px) {
-    padding: 130px 0px 150px;
+    padding: 130px 0px 0px;
     background-size: 90%;
+    min-height: 832px;
   }
   @media (min-width: 1024px) {
     padding: 160px 0px 300px;
     background-size: 80%;
+    min-height: 832px;
   }
   .logo {
     display: block;
@@ -80,15 +83,20 @@ const HomePageWrapper = styled.div`
   }
 `;
 
-const HomePageButton = styled(ButtonBrown10)`
+const HomePageButton = styled(ButtonBrown10).attrs({ as: Link })`
   position: static;
   right: 50px;
   top: 44px;
   margin: 0 auto;
-  padding: 8px 12px;
+  padding: 8px 0px;
+  width: 123px;
+  font-size: ${({ theme }) => theme.fontSize.fz14};
 
   @media (min-width: 768px) {
     position: absolute;
+    width: auto;
+    padding: 8px 12px;
+    font-size: ${({ theme }) => theme.fontSize.fz16};
   }
 `;
 
@@ -131,9 +139,10 @@ const StyledInput = styled.input`
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: left 16px center;
+  outline: none;
 
   &:focus {
-    border: 1px solid ${({ theme }) => theme.color.gray40};
+    border: 1px solid ${({ theme }) => theme.color.brown40};
   }
 
   @media (min-width: 768px) {
