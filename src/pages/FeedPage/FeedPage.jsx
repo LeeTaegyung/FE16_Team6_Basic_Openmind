@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-import AnswerCluster from './components/AnswerCluster';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
+import AnswerCluster from './components/AnswerCluster';
 import FloatingButton from './components/FloatingButton';
 import PostHeader from './components/PostHeader';
 

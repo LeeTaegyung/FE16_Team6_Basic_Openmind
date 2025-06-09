@@ -1,13 +1,27 @@
 import ArrowRight from '@assets/icons/ArrowRight.svg?react';
 import { ButtonBrown10 } from '@components/Button';
 import Logo from '@components/Logo';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function ListHeader() {
+  const listNavigate = useNavigate();
+
+  function handleNavigate(e) {
+    e.preventDefault();
+    const loggedInId = localStorage.getItem('login');
+
+    if (loggedInId) {
+      listNavigate(`/post/${loggedInId}/answer`);
+    } else {
+      listNavigate('/');
+    }
+  }
+
   return (
     <Header>
       <Logo className='logo' />
-      <Button>
+      <Button onClick={handleNavigate}>
         답변하러 가기
         <ArrowRight aria-label='화살표 아이콘' />
       </Button>

@@ -1,13 +1,14 @@
-import axios from 'axios';
-import LogoImg from '@components/Logo';
-import styled from 'styled-components';
-import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
+import { useState } from 'react';
+
 import HomePageBg from '@assets/images/HomePageBg.jpg';
+import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
 import Person from '@assets/images/icons/Person.png';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ButtonBrown40, ButtonBrown10 } from '@components/Button';
+import LogoImg from '@components/Logo';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 function HomePage() {
   const [name, setName] = useState('');
