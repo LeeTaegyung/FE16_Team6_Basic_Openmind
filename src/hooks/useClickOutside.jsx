@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useClickOutside(ref) {
+export function useClickOutside(ref) {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleToggle() {
@@ -8,7 +8,7 @@ function useClickOutside(ref) {
   }
 
   function closeDropDown(e) {
-    if (!ref.current.contains(e.target)) {
+    if (ref.current && !ref.current.contains(e.target)) {
       setIsOpen(false);
     }
   }
@@ -23,5 +23,3 @@ function useClickOutside(ref) {
 
   return [isOpen, handleToggle];
 }
-
-export default useClickOutside;
