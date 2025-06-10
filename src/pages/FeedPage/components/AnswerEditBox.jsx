@@ -1,11 +1,11 @@
 import { useGetQuestions } from '@context/PostContext';
 import { useGetUser } from '@context/UserContext';
 import { relativeTimeCalculator } from '@functions/relativeTimeCalculator';
-import { createAnswer, updateAnswer } from '@service/api';
+import { createAnswer } from '@service/api';
 import styled from 'styled-components';
 
-import AnswerContent from './AnswerContent';
 import AnswerForm from './AnswerForm';
+import EditableAnswer from './EditableAnswer';
 
 const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
   const { user } = useGetUser();
@@ -23,23 +23,6 @@ const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
     });
   };
 
-  // 답변 수정
-  const handleUpdateAnswer = async (answerText) => {
-    const data = await updateAnswer(answer.id, answerText);
-
-    setQuestions((prev) => {
-      const mappedArr = prev.map((el) => {
-        if (el.id === data.questionId) {
-          return { ...el, answer: data };
-        }
-
-        return el;
-      });
-      return mappedArr;
-    });
-    setIsEditMode(false);
-  };
-
   return (
     <AnswerBoxWrapper>
       <AnswerBoxUserImage src={user.imageSource} alt='답변자 프로필 사진' />
@@ -49,20 +32,12 @@ const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
           {answer && <AnswerBoxCreatedAt>{time}</AnswerBoxCreatedAt>}
         </AnswerBoxUserInfo>
         {answer ? (
-          <>
-            {isEditMode ? (
-              // 수정폼
-              <AnswerForm
-                content={answer.content}
-                isEditMode={isEditMode}
-                onClick={handleUpdateAnswer}
-              />
-            ) : (
-              <AnswerContent answer={answer} />
-            )}
-          </>
+          <EditableAnswer
+            answer={answer}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+          />
         ) : (
-          // 답변생성폼
           <AnswerForm onClick={handleCreateAnswer} />
         )}
       </AnswerBoxRight>
