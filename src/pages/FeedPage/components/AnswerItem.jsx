@@ -73,7 +73,12 @@ function AnswerItem({ question, isEditable }) {
         <Badge variant={question.answer ? 'answered' : 'notAnswered'}>
           {question.answer ? '답변 완료' : '미답변'}
         </Badge>
-        {isEditable && <Meatball questionId={question.id} />}
+        {isEditable && (
+          <Meatball
+            questionId={question.id}
+            questionStatus={question.answer ? false : true}
+          />
+        )}
       </AnswerItemUpperWrapper>
       <QuestionBox question={question} />
       {/* edit의 상태값에 상관없이 답변 보여주기. */}
