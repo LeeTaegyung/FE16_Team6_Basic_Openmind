@@ -5,16 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function ListHeader() {
-  const listNavigate = useNavigate();
+  const navigateList = useNavigate();
 
   function handleNavigate(e) {
     e.preventDefault();
     const loggedInId = localStorage.getItem('login');
 
     if (loggedInId) {
-      listNavigate(`/post/${loggedInId}/answer`);
+      navigateList(`/post/${loggedInId}/answer`);
     } else {
-      listNavigate('/');
+      navigateList('/');
     }
   }
 
