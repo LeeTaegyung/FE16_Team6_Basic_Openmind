@@ -15,18 +15,25 @@ function HomePage() {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
+    const stored = localStorage.getItem('userData');
+
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed.name === name) {
+        navigate(`/post/${parsed.id}/answer`);
+        return;
+      }
+    }
     try {
       const response = await axios.post(
-        'https://openmind-api.vercel.app/16-6/subjects/',
+        `${import.meta.env.VITE_BASE_URL}/subjects/`,
         {
           name: name,
         },
       );
       const subjectId = response.data.id;
-
-      localStorage.setItem('subjectId', subjectId);
       navigate(`/post/${subjectId}/answer`);
-      console.log('보냄', subjectId);
+      localStorage.setItem('userData', JSON.stringify({ name, id: subjectId }));
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);
     }
@@ -60,7 +67,6 @@ const HomePageWrapper = styled.div`
   img {
     width: 248px;
   }
-
   @media (min-width: 768px) {
     padding: 130px 0px 0px;
     background-size: 90%;
