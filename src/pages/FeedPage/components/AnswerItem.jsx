@@ -1,67 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Badge from '@components/Badge';
-import DislikeButton from '@components/DislikeButton';
-import LikeButton from '@components/LikeButton';
 import Meatball from '@components/Meatball';
-import axios from 'axios';
 import styled from 'styled-components';
 
 import AnswerEditBox from './AnswerEditBox';
 import AnswerViewBox from './AnswerViewBox';
 import QuestionBox from './QuestionBox';
-import { appendToLocalStorageArray } from '../../../functions/appendToLocalStorageArray';
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import ReactionButton from './ReactionButton';
 
 function AnswerItem({ question, isEditable }) {
-  const [isLikePressed, setIsLikePressed] = useState(false);
-  const [isDislikePressed, setIsDislikePressed] = useState(false);
-  const [isReactionPressed, setIsReactionPressed] = useState(false);
-  const [likeCount, setLikeCount] = useState(question.like);
   const [isEditMode, setIsEditMode] = useState(false);
-
-  const storageItem = localStorage.getItem('reaction');
-  const reactionList = JSON.parse(storageItem);
-
-  // handleLikeClick랑 handleDislikeClick 추상화할 수 있게 고민해보기.
-  const handleLikeClick = () => {
-    axios.post(`${BASE_URL}/questions/${question.id}/reaction/`, {
-      type: 'like',
-    });
-    setLikeCount((prev) => prev + 1);
-    setIsLikePressed(true);
-    setIsReactionPressed(true);
-    appendToLocalStorageArray('reaction', {
-      questionId: question.id,
-      reaction: 'like',
-    });
-  };
-
-  const handleDislikeClick = () => {
-    axios.post(`${BASE_URL}/questions/${question.id}/reaction/`, {
-      type: 'dislike',
-    });
-    setIsDislikePressed(true);
-    setIsReactionPressed(true);
-    appendToLocalStorageArray('reaction', {
-      questionId: question.id,
-      reaction: 'dislike',
-    });
-  };
-
-  useEffect(() => {
-    if (!reactionList) return;
-    reactionList.map((el) => {
-      if (el.questionId === question.id) {
-        setIsReactionPressed(true);
-        if (el.reaction === 'like') setIsLikePressed(true);
-        else if (el.reaction === 'dislike') setIsDislikePressed(true);
-      } else {
-        return;
-      }
-    });
-  }, []);
 
   return (
     <AnswerItemWrapper>
@@ -89,19 +38,7 @@ function AnswerItem({ question, isEditable }) {
         <AnswerViewBox answer={question.answer} />
       )}
       <HorizontalLine />
-      <ReactionButton>
-        <LikeButton
-          onClick={handleLikeClick}
-          isPressed={isLikePressed}
-          likeCount={likeCount}
-          disabled={isReactionPressed}
-        />
-        <DislikeButton
-          onClick={handleDislikeClick}
-          isPressed={isDislikePressed}
-          disabled={isReactionPressed}
-        />
-      </ReactionButton>
+      <ReactionButton questionId={question.id} like={question.like} />
     </AnswerItemWrapper>
   );
 }
@@ -133,9 +70,4 @@ const HorizontalLine = styled.div`
   @media (min-width: 768px) {
     margin-top: 32px;
   }
-`;
-
-const ReactionButton = styled.div`
-  display: flex;
-  gap: 32px;
 `;
