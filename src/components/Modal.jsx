@@ -7,9 +7,14 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-function Modal({ onClose, setQuestions, name, imageSource }) {
+import { useAnswersSetter } from '../context/AnswerContext';
+import { useUserInfo } from '../context/UserContext';
+
+function Modal({ onClose }) {
   const [text, setText] = useState('');
   const { id: subjectId } = useParams();
+  const { setAnswerArr } = useAnswersSetter();
+  const [user] = useUserInfo();
 
   const handleSubmit = async () => {
     try {
@@ -19,7 +24,7 @@ function Modal({ onClose, setQuestions, name, imageSource }) {
           content: text,
         },
       );
-      setQuestions((questions) => [response.data, ...questions]);
+      setAnswerArr((questions) => [response.data, ...questions]);
       onClose();
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);
@@ -44,8 +49,13 @@ function Modal({ onClose, setQuestions, name, imageSource }) {
         </ButtonClose>
         <UserName>
           To.
-          <img src={imageSource} alt='회원 이미지' width={25} height={25} />
-          <span>{name}</span>
+          <img
+            src={user.imageSource}
+            alt='회원 이미지'
+            width={25}
+            height={25}
+          />
+          <span>{user.name}</span>
         </UserName>
         <StyleTextarea
           id='question'

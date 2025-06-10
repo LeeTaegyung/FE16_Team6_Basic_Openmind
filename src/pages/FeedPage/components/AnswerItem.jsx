@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import Meatball from '@components/Meatball';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -9,7 +10,6 @@ import Badge from '../../../components/Badge';
 import DislikeButton from '../../../components/DislikeButton';
 import LikeButton from '../../../components/LikeButton';
 import { appendToLocalStorageArray } from '../../../functions/appendToLocalStorageArray';
-import Meatball from '@components/Meatball';
 
 function AnswerItem({ subjectInfo, result, isEditable }) {
   const [isLikePressed, setIsLikePressed] = useState(false);
