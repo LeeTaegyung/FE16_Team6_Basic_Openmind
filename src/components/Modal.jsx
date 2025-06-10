@@ -3,18 +3,17 @@ import { useState } from 'react';
 import ModalClose from '@assets/images/icons/ModalClose.svg?react';
 import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
 import { ButtonBrown40 } from '@components/Button';
+import { useGetQuestions } from '@context/PostContext';
+import { useGetUser } from '@context/UserContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useAnswersSetter } from '../context/AnswerContext';
-import { useUserInfo } from '../context/UserContext';
-
 function Modal({ onClose }) {
   const [text, setText] = useState('');
   const { id: subjectId } = useParams();
-  const { setAnswerArr } = useAnswersSetter();
-  const [user] = useUserInfo();
+  const { setQuestions } = useGetQuestions();
+  const { user } = useGetUser();
 
   const handleSubmit = async () => {
     try {
@@ -24,7 +23,7 @@ function Modal({ onClose }) {
           content: text,
         },
       );
-      setAnswerArr((questions) => [response.data, ...questions]);
+      setQuestions((questions) => [response.data, ...questions]);
       onClose();
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);

@@ -1,15 +1,14 @@
 import { useState } from 'react';
 
+import { ButtonBrown40 } from '@components/Button';
+import { useGetQuestions } from '@context/PostContext';
 import axios from 'axios';
 import styled from 'styled-components';
-
-import { ButtonBrown40 } from '../../../components/Button';
-import { useAnswers, useAnswersSetter } from '@context/AnswerContext';
 
 const AnswerForm = ({ questionId, answerId, content = '' }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [answerText, setAnswerText] = useState(content);
-  const { setAnswer, setAnswerArr } = useAnswersSetter();
+  const { setQuestions } = useGetQuestions();
 
   const handleChangeText = (e) => setAnswerText(e.target.value);
 
@@ -23,7 +22,7 @@ const AnswerForm = ({ questionId, answerId, content = '' }) => {
         },
       );
 
-      setAnswerArr((prev) => {
+      setQuestions((prev) => {
         const filteredItem = prev.filter(
           (el) => el.id !== response.data.questionId,
         );
@@ -36,7 +35,7 @@ const AnswerForm = ({ questionId, answerId, content = '' }) => {
         isRejected: false,
       });
 
-      setAnswerArr((prev) => {
+      setQuestions((prev) => {
         const mappedArr = prev.map((el) => {
           if (el.id === response.data.questionId) {
             return { ...el, answer: response.data };

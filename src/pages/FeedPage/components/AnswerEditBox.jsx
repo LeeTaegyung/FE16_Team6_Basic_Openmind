@@ -1,12 +1,12 @@
+import { useGetUser } from '@context/UserContext';
 import styled from 'styled-components';
 
 import AnswerContent from './AnswerContent';
 import AnswerForm from './AnswerForm';
-import { useUserInfo } from '../../../context/UserContext';
 import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
 const AnswerEditBox = ({ answer, questionId, isEditMode }) => {
-  const [user] = useUserInfo();
+  const { user } = useGetUser();
   const time = answer && relativeTimeCalculator(answer.createdAt);
 
   return (

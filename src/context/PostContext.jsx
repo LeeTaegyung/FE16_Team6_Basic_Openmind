@@ -42,8 +42,8 @@ export const useGetPost = () => {
 
   if (!context) throw new Error('context');
 
-  const { post, setPostm, totalCountRef } = context;
-  return { post, setPostm, totalCountRef };
+  const { post, setPost, totalCountRef } = context;
+  return { post, setPost, totalCountRef };
 };
 
 export const useGetQuestions = () => {

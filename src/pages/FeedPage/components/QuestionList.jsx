@@ -1,38 +1,38 @@
 import { useEffect, useRef } from 'react';
 
+import { useGetPost, useGetQuestions } from '@context/PostContext';
+import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import axios from 'axios';
 import styled from 'styled-components';
 
 import AnswerItem from './AnswerItem';
 import QuestionTotalMsg from './QuestionTotalMsg';
-import { useAnswers, useAnswersSetter } from '../../../context/AnswerContext';
-import useIntersectionObserver from '../../../hooks/useIntersectionObserver';
 
 const QuestionList = ({ isEditable }) => {
   const loadingRef = useRef(null); // 스크롤해서 보이게 되는 Element의 Ref
-  const { answer, answerArr } = useAnswers();
-  const { setAnswer, setAnswerArr } = useAnswersSetter();
+  const { post, setPost } = useGetPost();
+  const { questions, setQuestions } = useGetQuestions();
 
   const additionalFetchRef = useRef(() => {});
   additionalFetchRef.current = () => {
-    axios.get(answer.next).then((res) => {
-      setAnswer(res.data);
-      setAnswerArr((prev) => [...prev, ...res.data.results]);
+    axios.get(post.next).then((res) => {
+      setPost(res.data);
+      setQuestions((prev) => [...prev, ...res.data.results]);
     });
   };
 
   const [observe, unobserve] = useIntersectionObserver(additionalFetchRef);
 
   useEffect(() => {
-    if (!answer.count) return;
-    if (answerArr.length >= 3) observe(loadingRef.current);
-    if (answerArr.length === answer.count) unobserve(loadingRef.current);
-  }, [answerArr]);
+    if (!post.count) return;
+    if (questions.length >= 3) observe(loadingRef.current);
+    if (questions.length === post.count) unobserve(loadingRef.current);
+  }, [questions]);
 
   return (
     <>
-      <QuestionTotalMsg count={answer.count} />
-      {answerArr.map((question) => (
+      <QuestionTotalMsg count={post.count} />
+      {questions.map((question) => (
         <AnswerItem
           key={question.id}
           question={question}
@@ -40,7 +40,7 @@ const QuestionList = ({ isEditable }) => {
         />
       ))}
       <AnswerClusterText ref={loadingRef}>
-        {answerArr.length === answer.count ? '끝!' : '로딩중...'}
+        {questions.length === post.count ? '끝!' : '로딩중...'}
       </AnswerClusterText>
     </>
   );

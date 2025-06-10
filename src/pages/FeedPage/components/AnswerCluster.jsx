@@ -1,13 +1,14 @@
-import { useAnswers } from '@context/AnswerContext';
+import { useGetPost } from '@context/PostContext';
 import styled from 'styled-components';
 
 import QuestionEmpty from './QuestionEmpty';
 import QuestionList from './QuestionList';
 
 function AnswerCluster({ isEditable }) {
-  const { answer, answerArr } = useAnswers();
+  // isEditable 를 context로 분리할지 고민.
+  const { post } = useGetPost();
 
-  if (!answerArr) {
+  if (!post) {
     // 데이터가 로딩중일때에는 로딩중...을 보여주는데, 이건 나중에 밖으로 뺄지를 고민해봐야할 것 같음.
     console.log('loading...');
     return <div>로딩중....</div>;
@@ -17,7 +18,7 @@ function AnswerCluster({ isEditable }) {
     <AnswerClusterBody>
       {/* 삭제하기 버튼을 넣어주어야 함. */}
       <AnswerClusterWrapper>
-        {!answer.count ? (
+        {!post.count ? (
           <QuestionEmpty />
         ) : (
           <QuestionList isEditable={isEditable} />

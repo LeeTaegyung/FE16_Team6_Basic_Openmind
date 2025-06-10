@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
 
+import Badge from '@components/Badge';
+import DislikeButton from '@components/DislikeButton';
+import LikeButton from '@components/LikeButton';
 import Meatball from '@components/Meatball';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import AnswerBox from './AnswerBox';
-import AnswerContent from './AnswerContent';
 import AnswerEditBox from './AnswerEditBox';
-import AnswerForm from './AnswerForm';
 import AnswerViewBox from './AnswerViewBox';
 import QuestionBox from './QuestionBox';
-import Badge from '../../../components/Badge';
-import DislikeButton from '../../../components/DislikeButton';
-import LikeButton from '../../../components/LikeButton';
-import { useUserInfo } from '../../../context/UserContext';
 import { appendToLocalStorageArray } from '../../../functions/appendToLocalStorageArray';
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function AnswerItem({ question, isEditable }) {
   const [isLikePressed, setIsLikePressed] = useState(false);
@@ -22,16 +20,13 @@ function AnswerItem({ question, isEditable }) {
   const [isReactionPressed, setIsReactionPressed] = useState(false);
   const [likeCount, setLikeCount] = useState(question.like);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [user] = useUserInfo();
-
-  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const storageItem = localStorage.getItem('reaction');
   const reactionList = JSON.parse(storageItem);
 
   // handleLikeClick랑 handleDislikeClick 추상화할 수 있게 고민해보기.
   const handleLikeClick = () => {
-    axios.post(`${baseUrl}/questions/${question.id}/reaction/`, {
+    axios.post(`${BASE_URL}/questions/${question.id}/reaction/`, {
       type: 'like',
     });
     setLikeCount((prev) => prev + 1);
@@ -44,7 +39,7 @@ function AnswerItem({ question, isEditable }) {
   };
 
   const handleDislikeClick = () => {
-    axios.post(`${baseUrl}/questions/${question.id}/reaction/`, {
+    axios.post(`${BASE_URL}/questions/${question.id}/reaction/`, {
       type: 'dislike',
     });
     setIsDislikePressed(true);
@@ -83,7 +78,6 @@ function AnswerItem({ question, isEditable }) {
         )}
       </AnswerItemUpperWrapper>
       <QuestionBox question={question} />
-      {/* edit의 상태값에 상관없이 답변 보여주기. */}
 
       {isEditable ? (
         <AnswerEditBox
