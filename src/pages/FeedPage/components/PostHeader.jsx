@@ -1,11 +1,11 @@
 import PostHeaderBg from '@assets/images/PostHeaderBg.jpg';
 import Logo from '@components/Logo';
+import { useUserInfo } from '@context/UserContext';
 import styled from 'styled-components';
 
 import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
-import { useUserInfo } from '@context/UserContext';
 
 function PostHeader() {
   const [user] = useUserInfo();

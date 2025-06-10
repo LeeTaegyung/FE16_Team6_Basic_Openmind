@@ -21,5 +21,5 @@ export function useClickOutside(ref) {
     };
   }, []);
 
-  return {isOpen, onToggle};
+  return { isOpen, onToggle };
 }

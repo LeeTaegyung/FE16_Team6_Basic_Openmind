@@ -13,7 +13,7 @@ const sortMenu = {
 function SortSelector({ queryStrings, setQueryStrings }) {
   const { sort } = queryStrings;
   const selectorRef = useRef(null);
-  const {isOpen, onToggle} = useClickOutside(selectorRef);
+  const { isOpen, onToggle } = useClickOutside(selectorRef);
 
   //쿼리스트링 변경하기
   function handleClick(key) {

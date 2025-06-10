@@ -1,8 +1,8 @@
-import { DeletePage } from '../../../service/api.js';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ButtonBrown40 } from '../../../components/Button.jsx';
+import { DeletePage } from '../../../service/api.js';
 
 function DeleteButton({ subjectInfo }) {
   const navigate = useNavigate();
