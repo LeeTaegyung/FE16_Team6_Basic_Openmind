@@ -2,53 +2,32 @@ import styled from 'styled-components';
 
 import AnswerContent from './AnswerContent';
 import AnswerForm from './AnswerForm';
+import { useUserInfo } from '../../../context/UserContext';
 import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
-function AnswerBox({ subjectInfo, answer, isEditable }) {
+const AnswerEditBox = ({ answer, questionId }) => {
+  const [user] = useUserInfo();
   const time = answer && relativeTimeCalculator(answer.createdAt);
-
-  {
-    /*
-        isEditable이 true일때에만 가능.
-        답변 없음 -> 폼박스
-        답변 있음
-           -> 내용
-           -> 답변 거절
-        수정하기 -> 답변이 있을 떄에만 수정,
-        삭제하기 -> 답변이 있을 때에만 삭제,
-        답변거절
-          -> 답변이 있어도 답변 거절로 수정 가능. 답변으로 달았던 내용은 초기화.
-          -> 답변 거절을 해지할 수도 있음. 답변 거절을 해지하면, 다시 작성할 수 있음.
-      */
-  }
 
   return (
     <AnswerBoxWrapper>
-      <AnswerBoxUserImage
-        src={subjectInfo.imageSource}
-        alt='답변자 프로필 사진'
-      />
+      <AnswerBoxUserImage src={user.imageSource} alt='답변자 프로필 사진' />
       <AnswerBoxRight>
         <AnswerBoxUserInfo>
-          <AnswerBoxSubjectname>{subjectInfo.name}</AnswerBoxSubjectname>
+          <AnswerBoxSubjectname>{user.name}</AnswerBoxSubjectname>
           {answer && <AnswerBoxCreatedAt>{time}</AnswerBoxCreatedAt>}
         </AnswerBoxUserInfo>
-
-        {isEditable ? <AnswerForm /> : <AnswerContent answer={answer} />}
-
-        {/* {answer && answer.isRejected ? (
-          <AnswerBoxText isRejected={answer.isRejected}>
-            {answer.isRejected ? '답변 거절' : answer.content}
-          </AnswerBoxText>
+        {answer ? (
+          <AnswerContent answer={answer} />
         ) : (
-          <AnswerBoxText>{}</AnswerBoxText>
-        )} */}
+          <AnswerForm questionId={questionId} />
+        )}
       </AnswerBoxRight>
     </AnswerBoxWrapper>
   );
-}
+};
 
-export default AnswerBox;
+export default AnswerEditBox;
 
 const AnswerBoxWrapper = styled.div`
   display: flex;

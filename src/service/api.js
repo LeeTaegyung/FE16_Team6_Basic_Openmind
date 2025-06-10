@@ -19,3 +19,13 @@ export const additionalFetch = (url, setQuestion) => {
     setQuestion((prev) => [...prev, ...res.data.results]);
   });
 };
+
+export const DeletePage = async (id) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
+  } catch (err) {
+    console.error(err);
+    alert('삭제 실패.');
+  }
+  alert('삭제가 완료되었습니다.');
+};
