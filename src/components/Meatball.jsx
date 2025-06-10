@@ -18,7 +18,10 @@ function Meatball({ questionId, questionStatus, callback }) {
       icon: <Edit width={14} height={14} />,
       text: '수정하기',
       isDisable: questionStatus,
-      function: () => callback(true),
+      function: () => {
+        callback(true);
+        handleToggle();
+      },
     },
     {
       icon: <Close width={14} height={14} />,
@@ -27,6 +30,7 @@ function Meatball({ questionId, questionStatus, callback }) {
       function: (questionId) => {
         // 삭제하기가 답이 달렸을 때에만 작동,
         axios.delete(`${baseUrl}/answers/${questionId}/`);
+        handleToggle();
       },
     },
   ];
