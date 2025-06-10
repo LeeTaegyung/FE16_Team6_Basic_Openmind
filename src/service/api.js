@@ -22,9 +22,7 @@ export const additionalFetch = (url, setQuestion) => {
 
 export const DeletePage = async (id) => {
   try {
-    const response = await axios.delete(
-      `https://openmind-api.vercel.app/16-6/subjects/${id}/`,
-    );
+    const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
   } catch (err) {
     console.error(err);
     alert('삭제 실패.');
