@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
-function AnswerBox({ subjectInfo, children }) {
+function AnswerBox({ subjectInfo, children, isEditable }) {
   const time = relativeTimeCalculator(children.createdAt);
   return (
     <AnswerBoxWrapper>

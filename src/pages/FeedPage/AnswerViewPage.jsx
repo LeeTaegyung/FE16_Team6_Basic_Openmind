@@ -3,7 +3,7 @@ import AnswerCluster from './components/AnswerCluster';
 function AnswerViewPage() {
   return (
     <>
-      <AnswerCluster />
+      <AnswerCluster isEditable={false} />
     </>
   );
 }
