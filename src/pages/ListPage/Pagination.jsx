@@ -3,28 +3,28 @@ import PrevBtn from '@assets/icons/PrevBtn.svg?react';
 import { usePagination } from '@hooks/usePagination';
 import styled from 'styled-components';
 
-const PAGINATION_LENGTH = 5;
+const paginationLength = 5;
 
 function Pagination({ queryStrings, setQueryStrings, totalDataLength }) {
-  const { paginationRange, currentPage, handleNext, handlePrev, handleMove } =
+  const { paginationRange, currentPage, onNext, onPrev, onMove } =
     usePagination(
       queryStrings,
       setQueryStrings,
       totalDataLength,
-      PAGINATION_LENGTH,
+      paginationLength,
     );
 
   return (
     <PaginationStyle>
       <ul aria-label='페이지 이동 버튼'>
-        <li onClick={handlePrev}>
+        <li onClick={onPrev}>
           <PrevBtn aria-label='이전으로 가기' />
         </li>
         {paginationRange.map((el, i) => {
           return (
             <li
               className={currentPage == el ? 'active' : null}
-              onClick={(e) => handleMove(e)}
+              onClick={(e) => onMove(e)}
               aria-label={`${i}번째 페이지로 이동`}
               key={el + i}
             >
@@ -32,7 +32,7 @@ function Pagination({ queryStrings, setQueryStrings, totalDataLength }) {
             </li>
           );
         })}
-        <li onClick={handleNext}>
+        <li onClick={onNext}>
           <NextBtn aria-label='다음으로 가기' />
         </li>
       </ul>
