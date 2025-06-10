@@ -25,7 +25,7 @@ function HomePage() {
     }
     try {
       const response = await axios.post(
-        'https://openmind-api.vercel.app/16-6/subjects/',
+        `${import.meta.env.VITE_BASE_URL}/subjects/`,
         {
           name: name,
         },
