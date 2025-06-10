@@ -54,7 +54,11 @@ function FeedPage() {
         questions={questions}
         callback={additionalFetch}
       />
-      <FloatingButton />
+      <FloatingButton
+        setQuestions={setQuestions}
+        name={subject.name}
+        imageSource={subject.imageSource}
+      />
     </>
   );
 }

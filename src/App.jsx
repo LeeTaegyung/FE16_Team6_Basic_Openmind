@@ -1,4 +1,3 @@
-import Modal from '@components/Modal';
 import ToastContainer from '@components/Toast';
 import AnswerEditPage from '@pages/FeedPage/AnswerEditPage';
 import AnswerLayout from '@pages/FeedPage/AnswerLayout';
