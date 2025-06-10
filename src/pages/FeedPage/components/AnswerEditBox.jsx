@@ -9,7 +9,7 @@ import AnswerForm from './AnswerForm';
 
 const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
   const { user } = useGetUser();
-  const { questions, setQuestions } = useGetQuestions();
+  const { setQuestions } = useGetQuestions();
   const time = answer && relativeTimeCalculator(answer.createdAt);
 
   // 답변 생성
@@ -39,8 +39,6 @@ const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
     });
     setIsEditMode(false);
   };
-
-  console.log(questions);
 
   return (
     <AnswerBoxWrapper>
