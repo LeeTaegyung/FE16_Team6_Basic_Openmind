@@ -6,14 +6,12 @@ import styled from 'styled-components';
 import AnswerItem from './AnswerItem';
 import QuestionTotalMsg from './QuestionTotalMsg';
 import { useAnswers, useAnswersSetter } from '../../../context/AnswerContext';
-import { useUserInfo } from '../../../context/UserContext';
 import useIntersectionObserver from '../../../hooks/useIntersectionObserver';
 
 const QuestionList = ({ isEditable }) => {
   const loadingRef = useRef(null); // 스크롤해서 보이게 되는 Element의 Ref
   const { answer, answerArr } = useAnswers();
   const { setAnswer, setAnswerArr } = useAnswersSetter();
-  const [user] = useUserInfo();
 
   const additionalFetchRef = useRef(() => {});
   additionalFetchRef.current = () => {
@@ -34,11 +32,10 @@ const QuestionList = ({ isEditable }) => {
   return (
     <>
       <QuestionTotalMsg count={answer.count} />
-      {answerArr.map((el) => (
+      {answerArr.map((question) => (
         <AnswerItem
-          key={el.id}
-          subjectInfo={user}
-          result={el}
+          key={question.id}
+          question={question}
           isEditable={isEditable}
         />
       ))}

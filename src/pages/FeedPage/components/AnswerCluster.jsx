@@ -15,6 +15,7 @@ function AnswerCluster({ isEditable }) {
 
   return (
     <AnswerClusterBody>
+      {/* 삭제하기 버튼을 넣어주어야 함. */}
       <AnswerClusterWrapper>
         {!answer.count ? (
           <QuestionEmpty />

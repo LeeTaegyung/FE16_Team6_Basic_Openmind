@@ -2,25 +2,23 @@ import styled from 'styled-components';
 
 import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
-function QuestionBox({ children }) {
-  const time = relativeTimeCalculator(children.createdAt);
+function QuestionBox({ question }) {
+  const time = relativeTimeCalculator(question.createdAt);
   return (
-    <QuestionBoxWrapper>
-      <div>
+    <>
+      <QuestionBoxInfo>
         <QuestionBoxText>질문 · </QuestionBoxText>
         <QuestionBoxCreatedAt>{time}</QuestionBoxCreatedAt>
-      </div>
-      <QuestionBoxContent>{children.content}</QuestionBoxContent>
-    </QuestionBoxWrapper>
+      </QuestionBoxInfo>
+      <QuestionBoxContent>{question.content}</QuestionBoxContent>
+    </>
   );
 }
 
 export default QuestionBox;
 
-const QuestionBoxWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+const QuestionBoxInfo = styled.div`
+  margin-bottom: 4px;
 `;
 
 const QuestionBoxText = styled.span`

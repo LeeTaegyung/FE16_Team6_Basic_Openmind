@@ -4,20 +4,54 @@ import Close from '@assets/icons/Close.svg?react';
 import Edit from '@assets/icons/Edit.svg?react';
 import More from '@assets/icons/More.svg?react';
 import { useClickOutside } from '@hooks/useClickOutside';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const items = [
   {
     icon: <Edit width={14} height={14} />,
     text: '수정하기',
-    function: (questionId) => console.log(questionId + '를 수정하기'),
+    function: (questionId) => {
+      // 수정하기가 답이 달렸을 때에만 작동,
+      axios.put(`https://openmind-api.vercel.app/16-6/answers/${questionId}/`, {
+        content: '(empty)',
+        isRejected: false,
+        // isRejected: !isRejected,
+      });
+    },
   },
   {
     icon: <Close width={14} height={14} />,
     text: '삭제하기',
-    function: (questionId) => console.log(questionId + '를 삭제하기'),
+    function: (questionId) => {
+      // 삭제하기가 답이 달렸을 때에만 작동,
+      axios.delete(
+        `https://openmind-api.vercel.app/16-6/answers/${questionId}/`,
+      );
+    },
   },
 ];
+
+// meatballActions.delete = () => {
+//   //삭제 요청 보내기
+//   axios.delete(https://openmind-api.vercel.app/16-6/answers/${id}/);
+// };
+
+// meatballActions.reject = () => {
+//   //리젝트 요청 보내기
+//   axios.put(
+//     https://openmind-api.vercel.app/16-6/answers/${id}/,
+//     {
+//       content: '(empty)',
+//       isRejected: !isRejected,
+//     },
+//   );
+// };
+
+// meatballActions.edit = () => {
+//   //수정에 해당하는 드랍다운 눌렀을 때
+//   onEditChange((prev) => !prev);
+// };
 
 function Meatball({ questionId }) {
   const dropdownRef = useRef(null);
