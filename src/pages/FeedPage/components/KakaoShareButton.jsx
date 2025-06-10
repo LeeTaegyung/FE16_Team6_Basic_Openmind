@@ -2,10 +2,14 @@ import { useEffect } from 'react';
 
 import IconKakaoShare from '@assets/icons/IconKakaoShare.svg?react';
 
+import { useGetUser } from '../../../context/UserContext';
+
 const { Kakao } = window;
 
-function KakaoShareButton({ name, subjectId }) {
+function KakaoShareButton() {
   const KAKAO_APP_KEY = import.meta.env.VITE_KAKAO_APP_KEY;
+  const { user } = useGetUser();
+  const { name, subjectId } = user;
 
   const handleKakaoShare = () => {
     Kakao.Share.sendCustom({
