@@ -5,7 +5,7 @@ import AnswerForm from './AnswerForm';
 import { useUserInfo } from '../../../context/UserContext';
 import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
-const AnswerEditBox = ({ answer, questionId }) => {
+const AnswerEditBox = ({ answer, questionId, isEditMode }) => {
   const [user] = useUserInfo();
   const time = answer && relativeTimeCalculator(answer.createdAt);
 
@@ -18,7 +18,17 @@ const AnswerEditBox = ({ answer, questionId }) => {
           {answer && <AnswerBoxCreatedAt>{time}</AnswerBoxCreatedAt>}
         </AnswerBoxUserInfo>
         {answer ? (
-          <AnswerContent answer={answer} />
+          <>
+            {isEditMode ? (
+              <AnswerForm
+                questionId={questionId}
+                content={answer.content}
+                answerId={answer.id}
+              />
+            ) : (
+              <AnswerContent answer={answer} />
+            )}
+          </>
         ) : (
           <AnswerForm questionId={questionId} />
         )}

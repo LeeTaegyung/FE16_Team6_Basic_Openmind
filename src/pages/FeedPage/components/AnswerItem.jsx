@@ -21,6 +21,7 @@ function AnswerItem({ question, isEditable }) {
   const [isDislikePressed, setIsDislikePressed] = useState(false);
   const [isReactionPressed, setIsReactionPressed] = useState(false);
   const [likeCount, setLikeCount] = useState(question.like);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [user] = useUserInfo();
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -77,6 +78,7 @@ function AnswerItem({ question, isEditable }) {
           <Meatball
             questionId={question.id}
             questionStatus={question.answer ? false : true}
+            callback={setIsEditMode}
           />
         )}
       </AnswerItemUpperWrapper>
@@ -84,7 +86,11 @@ function AnswerItem({ question, isEditable }) {
       {/* edit의 상태값에 상관없이 답변 보여주기. */}
 
       {isEditable ? (
-        <AnswerEditBox answer={question.answer} questionId={question.id} />
+        <AnswerEditBox
+          answer={question.answer}
+          questionId={question.id}
+          isEditMode={isEditMode}
+        />
       ) : (
         <AnswerViewBox answer={question.answer} />
       )}

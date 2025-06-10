@@ -9,7 +9,7 @@ import styled, { css } from 'styled-components';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
-function Meatball({ questionId, questionStatus }) {
+function Meatball({ questionId, questionStatus, callback }) {
   const dropdownRef = useRef(null);
   const [isOpen, handleToggle] = useClickOutside(dropdownRef);
 
@@ -18,14 +18,7 @@ function Meatball({ questionId, questionStatus }) {
       icon: <Edit width={14} height={14} />,
       text: '수정하기',
       isDisable: questionStatus,
-      function: (questionId) => {
-        // 수정하기가 답이 달렸을 때에만 작동,
-        axios.put(`${baseUrl}/answers/${questionId}/`, {
-          content: '(empty)',
-          isRejected: false,
-          // isRejected: !isRejected,
-        });
-      },
+      function: () => callback(true),
     },
     {
       icon: <Close width={14} height={14} />,
