@@ -10,9 +10,9 @@ import styled from 'styled-components';
 
 import AnswerItem from './AnswerItem';
 
-function AnswerCluster() {
+function AnswerCluster({ isEditable }) {
   const loadingRef = useRef(null); // 스크롤해서 보이게 되는 Element의 Ref
-  const user = useUserInfo();
+  const [user] = useUserInfo();
   const { answer, answerArr } = useAnswers();
   const { setAnswer, setAnswerArr } = useAnswersSetter();
 
@@ -56,7 +56,12 @@ function AnswerCluster() {
           {answer.count}개의 질문이 있습니다.
         </AnswerClusterText>
         {answerArr.map((el) => (
-          <AnswerItem key={el.id} subjectInfo={user} result={el} />
+          <AnswerItem
+            key={el.id}
+            subjectInfo={user}
+            result={el}
+            isEditable={isEditable}
+          />
         ))}
         <AnswerClusterText ref={loadingRef}>
           {answerArr.length === answer.count ? '끝!' : '로딩중...'}

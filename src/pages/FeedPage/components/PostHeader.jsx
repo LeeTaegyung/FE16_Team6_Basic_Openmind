@@ -5,8 +5,10 @@ import styled from 'styled-components';
 import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
+import { useUserInfo } from '@context/UserContext';
 
-function PostHeader({ name, imageSource, subjectId }) {
+function PostHeader() {
+  const [user] = useUserInfo();
   return (
     <PostHeaderWrapper>
       <PostTitle>
@@ -14,16 +16,16 @@ function PostHeader({ name, imageSource, subjectId }) {
       </PostTitle>
       <UserInfo>
         <UserThumbnail>
-          <img src={imageSource} alt={`${name}의 프로필 이미지`} />
+          <img src={user.imageSource} alt={`${user.name}의 프로필 이미지`} />
         </UserThumbnail>
-        <UserName>{name}</UserName>
+        <UserName>{user.name}</UserName>
       </UserInfo>
       <PostUtils>
         <li>
           <LinkCopyButton />
         </li>
         <li>
-          <KakaoShareButton name={name} subjectId={subjectId} />
+          <KakaoShareButton name={user.name} subjectId={user.subjectId} />
         </li>
         <li>
           <FacebookShareButton />

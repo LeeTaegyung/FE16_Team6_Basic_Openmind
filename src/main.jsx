@@ -17,11 +17,7 @@ createRoot(document.getElementById('root')).render(
       <GlobalStyle />
       <BrowserRouter>
         <ToastProvider>
-          <AnswerProvider>
-            <UserProvider>
-              <App />
-            </UserProvider>
-          </AnswerProvider>
+          <App />
         </ToastProvider>
       </BrowserRouter>
     </ThemeProvider>

@@ -1,15 +1,19 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import axios from 'axios';
 
 const UserStateContext = createContext(null);
-const UserSetterContext = createContext(() => {});
 
-function UserProvider({ children }) {
+function UserProvider({ id, children }) {
   const [user, setUser] = useState({});
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  useEffect(() => {
+    axios.get(`${baseUrl}/subjects/${id}/`).then((res) => setUser(res.data));
+  }, []);
   return (
-    <UserStateContext.Provider value={user}>
-      <UserSetterContext.Provider value={setUser}>
-        {children}
-      </UserSetterContext.Provider>
+    <UserStateContext.Provider value={[user, setUser]}>
+      {children}
     </UserStateContext.Provider>
   );
 }
@@ -17,4 +21,3 @@ function UserProvider({ children }) {
 export default UserProvider;
 
 export const useUserInfo = () => useContext(UserStateContext);
-export const useUserInfoSetter = () => useContext(UserSetterContext);
