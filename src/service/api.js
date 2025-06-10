@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export async function getSubjects(queryStrings) {
   const { limit, offset = 0, sort = 'time' } = queryStrings;
@@ -13,3 +13,9 @@ export async function getSubjects(queryStrings) {
     console.log(err.message);
   }
 }
+
+export const additionalFetch = (url, setQuestion) => {
+  axios.get(url).then((res) => {
+    setQuestion((prev) => [...prev, ...res.data.results]);
+  });
+};
