@@ -34,5 +34,5 @@ export function useLoadItemsByQuery() {
     })();
   }, [queryStrings]);
 
-  return [result, queryStrings, setQueryStrings, isLoading];
+  return {result, queryStrings, setQueryStrings, isLoading};
 }
