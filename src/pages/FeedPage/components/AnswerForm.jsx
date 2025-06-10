@@ -4,23 +4,49 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import { ButtonBrown40 } from '../../../components/Button';
+import { useAnswers, useAnswersSetter } from '@context/AnswerContext';
 
-const AnswerForm = ({ questionId }) => {
+const AnswerForm = ({ questionId, answerId, content = '' }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [answerText, setAnswerText] = useState('');
+  const [answerText, setAnswerText] = useState(content);
+  const { setAnswer, setAnswerArr } = useAnswersSetter();
 
   const handleChangeText = (e) => setAnswerText(e.target.value);
 
   const handleClickAnswer = async () => {
-    const response = await axios.post(
-      `${BASE_URL}/questions/${questionId}/answers/`,
-      {
+    if (content === '') {
+      const response = await axios.post(
+        `${BASE_URL}/questions/${questionId}/answers/`,
+        {
+          content: answerText,
+          isRejected: false,
+        },
+      );
+
+      setAnswerArr((prev) => {
+        const filteredItem = prev.filter(
+          (el) => el.id !== response.data.questionId,
+        );
+        const findItem = prev.find((el) => el.id === response.data.questionId);
+        return [{ ...findItem, answer: response.data }, ...filteredItem];
+      });
+    } else {
+      const response = await axios.put(`${BASE_URL}/answers/${answerId}/`, {
         content: answerText,
         isRejected: false,
-      },
-    );
+      });
 
-    console.log(response);
+      setAnswerArr((prev) => {
+        const mappedArr = prev.map((el) => {
+          if (el.id === response.data.questionId) {
+            return { ...el, answer: response.data };
+          }
+
+          return el;
+        });
+        return mappedArr;
+      });
+    }
   };
 
   return (
