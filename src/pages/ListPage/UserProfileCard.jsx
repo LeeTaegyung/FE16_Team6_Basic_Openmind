@@ -1,18 +1,24 @@
 import QuestionCountIcon from '@assets/icons/QuestionCountIcon.svg?react';
-import UserImageTest from '@assets/images/UserImageTest.png';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function UserProfile({ user }) {
+  const profileNavigator = useNavigate();
+
+  function handleMove() {
+    profileNavigator(`/post/${user.id}`);
+  }
+
   return (
-    <ProfileCard>
-      <img className='user-img' src={UserImageTest} alt='실험용 유저이미지' />
-      <h2>유저이름</h2>
+    <ProfileCard onClick={handleMove}>
+      <img className='user-img' src={user.imageSource} alt='유저 대표 이미지' />
+      <h2>{user.name}</h2>
       <div>
         <span>
           <QuestionCountIcon aria-label='받은 질문 아이콘' />
           받은 질문
         </span>
-        <span>9개</span>
+        <span>{user.questionCount}</span>
       </div>
     </ProfileCard>
   );
@@ -20,7 +26,7 @@ function UserProfile({ user }) {
 
 export default UserProfile;
 
-const ProfileCard = styled.div`
+export const ProfileCard = styled.div`
   background: ${({ theme }) => theme.color.gray10};
   border: 1px solid ${({ theme }) => theme.color.gray40};
   border-radius: 16px;

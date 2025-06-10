@@ -1,12 +1,37 @@
+import { useEffect } from 'react';
+
+import { useLoadItemsByQuery } from '@hooks/useLoadItemsByQuery';
+import { useResizeLimit } from '@hooks/useResizeLimit';
 import styled from 'styled-components';
 
 import ListHeader from './ListHeader';
 import Pagination from './Pagination';
+import SkeletonUi from './SkeletonUi';
 import SortSelector from './SortSelector';
 import UserProfile from './UserProfileCard';
 
 function UserList() {
-  const userList = [1, 2, 3, 4, 5, 6];
+  // 해당 훅 마운트 될 때 아이템들 로드
+  const [result, queryStrings, setQueryStrings, isLoading] =
+    useLoadItemsByQuery();
+  const limit = useResizeLimit();
+
+  //지금 화면에 보이는 유저 수
+  const loadedCount = result.results?.length || 0;
+  //로딩 중일 때는 쿼리로 보낸 limit값 - 유저수만큼 스켈레톤 채워줘
+  const skeletonCount = isLoading ? Math.max(limit - loadedCount, 0) : 0;
+
+  useEffect(() => {
+    if (!limit) return;
+
+    setQueryStrings((prev) => {
+      if (limit === prev.limit) return prev;
+      return {
+        ...prev,
+        limit,
+      };
+    });
+  }, [limit]);
 
   return (
     <UserListContainer>
@@ -14,15 +39,26 @@ function UserList() {
       <main>
         <div className='flex-container'>
           <h2>누구에게 질문할까요?</h2>
-          <SortSelector />
+          <SortSelector
+            queryStrings={queryStrings}
+            setQueryStrings={setQueryStrings}
+          />
         </div>
         <UserGrid>
-          {userList.map((user) => {
-            return <UserProfile key={user} user={user} />;
+          {result.results?.map((user) => {
+            return <UserProfile key={user.id} user={user} />;
           })}
+          {isLoading &&
+            Array.from({ length: skeletonCount }).map((_, i) => (
+              <SkeletonUi key={`loading${i}`} />
+            ))}
         </UserGrid>
       </main>
-      <Pagination />
+      <Pagination
+        queryStrings={queryStrings}
+        setQueryStrings={setQueryStrings}
+        totalDataLength={result.count}
+      />
     </UserListContainer>
   );
 }
@@ -50,6 +86,7 @@ const UserListContainer = styled.div`
       gap: 12px;
       text-align: center;
       align-items: center;
+      padding: 0;
       margin-top: 40px;
       margin-bottom: 30px;
 
@@ -73,12 +110,15 @@ const UserGrid = styled.div`
   justify-content: center;
   gap: 16px;
   grid-template-columns: repeat(2, minmax(155.5px, 1fr));
+  overflow: hidden;
+  max-height: 530px;
 
   @media screen and (min-width: 768px) {
     padding: 0 32px 0;
     margin: 0 auto;
     grid-template-columns: repeat(3, minmax(186px, 220px));
     gap: 20px;
+    max-height: 398px;
   }
 
   /* 186(카드너비)*4+20(gap)*3+32(양옆 마진)*2 =  뷰포트 844일때 => 4개 배치시 186보다 작아짐  */

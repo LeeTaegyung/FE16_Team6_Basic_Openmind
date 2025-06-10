@@ -2,68 +2,77 @@ import { useEffect, useRef } from 'react';
 
 import Empty from '@assets/icons/Empty.svg?react';
 import Message from '@assets/icons/Messages.svg?react';
+import { useAnswers, useAnswersSetter } from '@context/AnswerContext';
+import { useUserInfo } from '@context/UserContext';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
+import axios from 'axios';
 import styled from 'styled-components';
+
 import AnswerItem from './AnswerItem';
 
-function AnswerCluster({ subjectInfo, result, questions, callback }) {
-  const loadingRef = useRef(null);
-  const [observe, unobserve] = useIntersectionObserver(callback);
+function AnswerCluster({ isEditable }) {
+  const loadingRef = useRef(null); // 스크롤해서 보이게 되는 Element의 Ref
+  const [user] = useUserInfo();
+  const { answer, answerArr } = useAnswers();
+  const { setAnswer, setAnswerArr } = useAnswersSetter();
+
+  const additionalFetchRef = useRef(() => {});
+  additionalFetchRef.current = () => {
+    axios.get(answer.next).then((res) => {
+      setAnswer(res.data);
+      setAnswerArr((prev) => [...prev, ...res.data.results]);
+    });
+  };
+
+  const [observe, unobserve] = useIntersectionObserver(additionalFetchRef);
 
   useEffect(() => {
-    if (questions.length === 0) return;
-    if (questions.length >= 3) {
-      observe(loadingRef.current);
-    }
+    if (!answer) return;
+    if (answerArr.length >= 3) observe(loadingRef.current);
+    if (answerArr.length === answer.count) unobserve(loadingRef.current);
+  }, [answerArr]);
 
-    if (questions.length === result.count) {
-      unobserve(loadingRef.current);
-    }
-  }, [questions, result]);
+  let content;
+
+  if (!answerArr) {
+    content = <AnswerClusterText>로딩중...</AnswerClusterText>;
+  } else if (answer.count === 0) {
+    content = (
+      <>
+        <AnswerClusterText>
+          <Message height={24} />
+          아직 질문이 없습니다.
+        </AnswerClusterText>
+        <AnswerClusterEmpty>
+          <Empty />
+        </AnswerClusterEmpty>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <AnswerClusterText>
+          <Message height={24} />
+          {answer.count}개의 질문이 있습니다.
+        </AnswerClusterText>
+        {answerArr.map((el) => (
+          <AnswerItem
+            key={el.id}
+            subjectInfo={user}
+            result={el}
+            isEditable={isEditable}
+          />
+        ))}
+        <AnswerClusterText ref={loadingRef}>
+          {answerArr.length === answer.count ? '끝!' : '로딩중...'}
+        </AnswerClusterText>
+      </>
+    );
+  }
 
   return (
     <AnswerClusterBody>
-      <AnswerClusterWrapper>
-        {result ? (
-          <>
-            <AnswerClusterText>
-              <Message height={24} />
-              {result.count !== 0 ? (
-                <>{result.count}개의 질문이 있습니다.</>
-              ) : (
-                <>아직 질문이 없습니다.</>
-              )}
-            </AnswerClusterText>
-            {result.count !== 0 ? (
-              <>
-                {questions &&
-                  questions.map((el) => (
-                    <AnswerItem
-                      key={el.id}
-                      subjectInfo={subjectInfo}
-                      result={el}
-                    />
-                  ))}
-                {questions.length === result.count ? (
-                  <AnswerClusterText ref={loadingRef}>끝!</AnswerClusterText>
-                ) : (
-                  <AnswerClusterText ref={loadingRef}>
-                    로딩중...
-                  </AnswerClusterText>
-                )}
-              </>
-            ) : (
-              <AnswerClusterEmpty>
-                <Empty />
-              </AnswerClusterEmpty>
-            )}
-          </>
-        ) : (
-          <>
-            <AnswerClusterText ref={loadingRef}>로딩중...</AnswerClusterText>
-          </>
-        )}
-      </AnswerClusterWrapper>
+      <AnswerClusterWrapper>{content}</AnswerClusterWrapper>
     </AnswerClusterBody>
   );
 }

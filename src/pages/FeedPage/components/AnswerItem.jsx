@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import AnswerBox from './AnswerBox';
+import QuestionBox from './QuestionBox';
 import Badge from '../../../components/Badge';
 import DislikeButton from '../../../components/DislikeButton';
 import LikeButton from '../../../components/LikeButton';
-import AnswerBox from './AnswerBox';
-import QuestionBox from './QuestionBox';
 import { appendToLocalStorageArray } from '../../../functions/appendToLocalStorageArray';
+import Meatball from '@components/Meatball';
 
-function AnswerItem({ subjectInfo, result }) {
+function AnswerItem({ subjectInfo, result, isEditable }) {
   const [isLikePressed, setIsLikePressed] = useState(false);
   const [isDislikePressed, setIsDislikePressed] = useState(false);
   const [isReactionPressed, setIsReactionPressed] = useState(false);
@@ -61,12 +62,17 @@ function AnswerItem({ subjectInfo, result }) {
 
   return (
     <AnswerItemWrapper>
-      <Badge variant={result.answer ? 'answered' : 'notAnswered'}>
-        {result.answer ? '답변 완료' : '미답변'}
-      </Badge>
+      <AnswerItemUpperWrapper>
+        <Badge variant={result.answer ? 'answered' : 'notAnswered'}>
+          {result.answer ? '답변 완료' : '미답변'}
+        </Badge>
+        {isEditable && <Meatball questionId={result.id} />}
+      </AnswerItemUpperWrapper>
       <QuestionBox>{result}</QuestionBox>
       {result.answer && (
-        <AnswerBox subjectInfo={subjectInfo}>{result.answer}</AnswerBox>
+        <AnswerBox subjectInfo={subjectInfo} isEditable={isEditable}>
+          {result.answer}
+        </AnswerBox>
       )}
       <HorizontalLine />
       <ReactionButton>
@@ -96,6 +102,12 @@ const AnswerItemWrapper = styled.div`
   background-color: ${({ theme }) => theme.color.gray10};
   border-radius: 16px;
   box-shadow: ${({ theme }) => theme.boxShadow.shadow1};
+`;
+
+const AnswerItemUpperWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const HorizontalLine = styled.div`

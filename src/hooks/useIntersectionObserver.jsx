@@ -1,11 +1,11 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
-function useIntersectionObserver(callback) {
+function useIntersectionObserver(callbackRef) {
   const observer = useRef(
     new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) {
-          callback();
+        if (e.isIntersecting && callbackRef.current) {
+          callbackRef.current();
         }
       },
       {
@@ -14,12 +14,12 @@ function useIntersectionObserver(callback) {
     ),
   );
 
-  const observe = (element) => {
+  const observe = useCallback((element) => {
     observer.current.observe(element);
-  };
-  const unobserve = (element) => {
+  }, []);
+  const unobserve = useCallback((element) => {
     observer.current.unobserve(element);
-  };
+  }, []);
 
   return [observe, unobserve];
 }

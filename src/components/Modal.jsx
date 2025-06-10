@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import axios from 'axios';
-import UserImg from '@assets/images/ProfileImg.svg?react';
-import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
-import ModalClose from '@assets/images/icons/ModalClose.svg?react';
-import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { ButtonBrown40 } from '@components/Button';
 
-function Modal({ onClose }) {
+import ModalClose from '@assets/images/icons/ModalClose.svg?react';
+import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
+import { ButtonBrown40 } from '@components/Button';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+
+function Modal({ onClose, setQuestions, name, imageSource }) {
   const [text, setText] = useState('');
   const { id: subjectId } = useParams();
 
@@ -19,7 +19,7 @@ function Modal({ onClose }) {
           content: text,
         },
       );
-      console.log('등록 성공:', response.data);
+      setQuestions((questions) => [response.data, ...questions]);
       onClose();
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);
@@ -32,31 +32,20 @@ function Modal({ onClose }) {
     <ModalBackground onClick={onClose}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
         <h2>
-          <img
-            src={ModalTitleIcon}
-            alt='모달 아이콘 이미지'
-            width={28}
-            height={28}
-          />
+          <ModalTitleIcon />
           질문을 작성하세요
         </h2>
         <ButtonClose
           onClick={() => {
-            console.log('배경 클릭으로 닫기!');
             onClose();
           }}
         >
-          <img
-            src={ModalClose}
-            alt='모달닫기 버튼 이미지'
-            width={28}
-            height={28}
-          />
+          <ModalClose />
         </ButtonClose>
         <UserName>
           To.
-          <img src={UserImg} alt='회원 이미지' width={25} height={25} />
-          <span>아초는 고양이</span>
+          <img src={imageSource} alt='회원 이미지' width={25} height={25} />
+          <span>{name}</span>
         </UserName>
         <StyleTextarea
           id='question'
@@ -95,7 +84,7 @@ const ModalWrapper = styled.div`
     margin-bottom: 40px;
     background-position: left;
 
-    img {
+    svg {
       margin-right: 10px;
     }
   }
@@ -139,10 +128,14 @@ const StyleTextarea = styled.textarea`
   padding: 16px;
   font-size: 16px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid ${({ theme }) => theme.color.gray10};
+  outline: none;
   resize: none;
   background: ${({ theme }) => theme.color.gray20};
 
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.color.brown40};
+  }
   @media (min-width: 768px) {
     width: 532px;
     height: 180px;
