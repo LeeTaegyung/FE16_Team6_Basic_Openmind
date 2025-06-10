@@ -1,13 +1,57 @@
+import { useGetQuestions } from '@context/PostContext';
 import { useGetUser } from '@context/UserContext';
 import { relativeTimeCalculator } from '@functions/relativeTimeCalculator';
+import axios from 'axios';
 import styled from 'styled-components';
 
 import AnswerContent from './AnswerContent';
 import AnswerForm from './AnswerForm';
 
-const AnswerEditBox = ({ answer, questionId, isEditMode }) => {
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
   const { user } = useGetUser();
+  const { questions, setQuestions } = useGetQuestions();
   const time = answer && relativeTimeCalculator(answer.createdAt);
+
+  // 답변 생성
+  const handleCreateAnswer = async (answerText) => {
+    const response = await axios.post(
+      `${BASE_URL}/questions/${questionId}/answers/`,
+      {
+        content: answerText,
+        isRejected: false,
+      },
+    );
+
+    setQuestions((prev) => {
+      return prev.map((el) => {
+        return el.id === questionId ? { ...el, answer: response.data } : el;
+      });
+    });
+  };
+
+  // 답변 수정
+  const handleUpdateAnswer = async (answerText) => {
+    const response = await axios.put(`${BASE_URL}/answers/${answer.id}/`, {
+      content: answerText,
+      isRejected: false,
+    });
+
+    setQuestions((prev) => {
+      const mappedArr = prev.map((el) => {
+        if (el.id === response.data.questionId) {
+          return { ...el, answer: response.data };
+        }
+
+        return el;
+      });
+      return mappedArr;
+    });
+    setIsEditMode(false);
+  };
+
+  console.log(questions);
 
   return (
     <AnswerBoxWrapper>
@@ -20,17 +64,19 @@ const AnswerEditBox = ({ answer, questionId, isEditMode }) => {
         {answer ? (
           <>
             {isEditMode ? (
+              // 수정폼
               <AnswerForm
-                questionId={questionId}
                 content={answer.content}
-                answerId={answer.id}
+                isEditMode={isEditMode}
+                onClick={handleUpdateAnswer}
               />
             ) : (
               <AnswerContent answer={answer} />
             )}
           </>
         ) : (
-          <AnswerForm questionId={questionId} />
+          // 답변생성폼
+          <AnswerForm onClick={handleCreateAnswer} />
         )}
       </AnswerBoxRight>
     </AnswerBoxWrapper>

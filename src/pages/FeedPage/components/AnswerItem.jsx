@@ -33,6 +33,7 @@ function AnswerItem({ question, isEditable }) {
           answer={question.answer}
           questionId={question.id}
           isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
         />
       ) : (
         <AnswerViewBox answer={question.answer} />
