@@ -27,7 +27,7 @@ function PostProvider({ children }) {
   }, []);
 
   return (
-    <PostContext.Provider value={{ post, setPost }}>
+    <PostContext.Provider value={{ post, setPost, totalCountRef }}>
       <QuestionsContext.Provider value={{ questions, setQuestions }}>
         {children}
       </QuestionsContext.Provider>
@@ -42,8 +42,8 @@ export const useGetPost = () => {
 
   if (!context) throw new Error('context');
 
-  const { post, setPost } = context;
-  return { post, setPost };
+  const { post, setPostm, totalCountRef } = context;
+  return { post, setPostm, totalCountRef };
 };
 
 export const useGetQuestions = () => {
@@ -51,6 +51,6 @@ export const useGetQuestions = () => {
 
   if (!context) throw new Error('context');
 
-  const { questions, setQuestions } = context;
-  return { questions, setQuestions };
+  const { questions, setQuestions, totalCountRef } = context;
+  return { questions, setQuestions, totalCountRef };
 };
