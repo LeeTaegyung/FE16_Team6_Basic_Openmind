@@ -4,10 +4,12 @@ const AnswerStateContext = createContext(null);
 const AnswerSetterContext = createContext(() => {});
 
 function AnswerProvider({ children }) {
-  const [answer, setAnswer] = useState([]);
+  const [answer, setAnswer] = useState({});
+  const [answerArr, setAnswerArr] = useState([]);
+
   return (
-    <AnswerStateContext.Provider value={answer}>
-      <AnswerSetterContext.Provider value={setAnswer}>
+    <AnswerStateContext.Provider value={{ answer, answerArr }}>
+      <AnswerSetterContext.Provider value={{ setAnswer, setAnswerArr }}>
         {children}
       </AnswerSetterContext.Provider>
     </AnswerStateContext.Provider>
@@ -16,5 +18,5 @@ function AnswerProvider({ children }) {
 
 export default AnswerProvider;
 
-export const useQuestions = () => useContext(AnswerStateContext);
-export const useQuestionsSetter = () => useContext(AnswerSetterContext);
+export const useAnswers = () => useContext(AnswerStateContext);
+export const useAnswersSetter = () => useContext(AnswerSetterContext);

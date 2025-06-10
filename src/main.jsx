@@ -9,6 +9,7 @@ import { ThemeProvider } from 'styled-components';
 
 import App from './App.jsx';
 import AnswerProvider from '@context/AnswerContext.jsx';
+import UserProvider from '@context/UserContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <ToastProvider>
           <AnswerProvider>
-            <App />
+            <UserProvider>
+              <App />
+            </UserProvider>
           </AnswerProvider>
         </ToastProvider>
       </BrowserRouter>
