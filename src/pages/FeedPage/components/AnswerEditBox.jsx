@@ -1,13 +1,11 @@
 import { useGetQuestions } from '@context/PostContext';
 import { useGetUser } from '@context/UserContext';
 import { relativeTimeCalculator } from '@functions/relativeTimeCalculator';
-import axios from 'axios';
+import { createAnswer, updateAnswer } from '@service/api';
 import styled from 'styled-components';
 
 import AnswerContent from './AnswerContent';
 import AnswerForm from './AnswerForm';
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
   const { user } = useGetUser();
@@ -16,32 +14,23 @@ const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
 
   // 답변 생성
   const handleCreateAnswer = async (answerText) => {
-    const response = await axios.post(
-      `${BASE_URL}/questions/${questionId}/answers/`,
-      {
-        content: answerText,
-        isRejected: false,
-      },
-    );
+    const data = await createAnswer(questionId, answerText);
 
     setQuestions((prev) => {
       return prev.map((el) => {
-        return el.id === questionId ? { ...el, answer: response.data } : el;
+        return el.id === questionId ? { ...el, answer: data } : el;
       });
     });
   };
 
   // 답변 수정
   const handleUpdateAnswer = async (answerText) => {
-    const response = await axios.put(`${BASE_URL}/answers/${answer.id}/`, {
-      content: answerText,
-      isRejected: false,
-    });
+    const data = await updateAnswer(answer.id, answerText);
 
     setQuestions((prev) => {
       const mappedArr = prev.map((el) => {
-        if (el.id === response.data.questionId) {
-          return { ...el, answer: response.data };
+        if (el.id === data.questionId) {
+          return { ...el, answer: data };
         }
 
         return el;

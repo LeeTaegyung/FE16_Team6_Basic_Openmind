@@ -65,3 +65,30 @@ export const createQuestion = async (userId, questionText) => {
     console.error(err.message);
   }
 };
+
+export const createAnswer = async (questionId, answerText) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/questions/${questionId}/answers/`,
+      {
+        content: answerText,
+        isRejected: false,
+      },
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const updateAnswer = async (answerId, answerText) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/answers/${answerId}/`, {
+      content: answerText,
+      isRejected: false,
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
