@@ -3,27 +3,26 @@ import { useState } from 'react';
 import ModalClose from '@assets/images/icons/ModalClose.svg?react';
 import ModalTitleIcon from '@assets/images/icons/ModalTitleIcon.svg?react';
 import { ButtonBrown40 } from '@components/Button';
-import { useGetQuestions } from '@context/PostContext';
+import { useGetPost, useGetQuestions } from '@context/PostContext';
 import { useGetUser } from '@context/UserContext';
-import axios from 'axios';
+import { createQuestion } from '@service/api';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Modal({ onClose }) {
   const [text, setText] = useState('');
-  const { id: subjectId } = useParams();
+  const { id } = useParams();
+  const { setPost } = useGetPost();
   const { setQuestions } = useGetQuestions();
   const { user } = useGetUser();
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/subjects/${subjectId}/questions/`,
-        {
-          content: text,
-        },
-      );
-      setQuestions((questions) => [response.data, ...questions]);
+      const data = await createQuestion(id, text);
+      setPost((prev) => {
+        return { ...prev, count: prev.count + 1 };
+      });
+      setQuestions((questions) => [data, ...questions]);
       onClose();
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);

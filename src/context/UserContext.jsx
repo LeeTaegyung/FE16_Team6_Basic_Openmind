@@ -1,18 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import axios from 'axios';
+import { fetchUser } from '@service/api';
 import { useParams } from 'react-router-dom';
 
-const UserStateContext = createContext(null);
+const UserStateContext = createContext();
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-function UserProvider({ children }) {
+export function UserProvider({ children }) {
   const { id } = useParams();
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/subjects/${id}/`).then((res) => setUser(res.data));
+    fetchUser(id).then((data) => setUser(data));
   }, []);
 
   return (
@@ -21,8 +19,6 @@ function UserProvider({ children }) {
     </UserStateContext.Provider>
   );
 }
-
-export default UserProvider;
 
 export const useGetUser = () => {
   const context = useContext(UserStateContext);

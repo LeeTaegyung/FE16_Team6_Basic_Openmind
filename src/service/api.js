@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const QUESTION_LIMIT = 3;
 
 export async function getSubjects(queryStrings) {
   const { limit, offset = 0, sort = 'time' } = queryStrings;
@@ -23,9 +24,44 @@ export const additionalFetch = (url, setQuestion) => {
 export const DeletePage = async (id) => {
   try {
     const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
+    return response.data;
   } catch (err) {
     console.error(err);
     alert('삭제 실패.');
   }
   alert('삭제가 완료되었습니다.');
+};
+
+export const fetchUser = async (userId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/subjects/${userId}/`);
+    return response.data;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const fetchPost = async (userId, offset = 0, limit = QUESTION_LIMIT) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/subjects/${userId}/questions/?limit=${limit}&offset=${offset}`,
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const createQuestion = async (userId, questionText) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/subjects/${userId}/questions/`,
+      {
+        content: questionText,
+      },
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err.message);
+  }
 };
