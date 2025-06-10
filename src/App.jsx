@@ -16,7 +16,6 @@ function App() {
           <Route path=':id/answer' element={<AnswerEditPage />} />
         </Route>
         <Route path='/' element={<HomePage />} />
-        <Route path='/modal' element={<Modal />} />
         <Route path='/list' element={<UserList />} />
       </Routes>
       <ToastContainer />
