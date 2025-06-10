@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export function useClickOutside(ref) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function handleToggle() {
+  function onToggle() {
     setIsOpen((prev) => !prev);
   }
 
@@ -21,5 +21,5 @@ export function useClickOutside(ref) {
     };
   }, []);
 
-  return [isOpen, handleToggle];
+  return {isOpen, onToggle};
 }
