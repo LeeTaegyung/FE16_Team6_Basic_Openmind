@@ -27,10 +27,11 @@ export const deletePage = async (id) => {
   try {
     const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
     navigate('/', { replace: true }); // / 으로 이동
+    localStorage.removeItem('userData');
     return response.data;
   } catch (err) {
     console.error(err);
-    alert('삭제 실패.');
+    alert('삭제에 실패하였습니다.');
   }
 };
 

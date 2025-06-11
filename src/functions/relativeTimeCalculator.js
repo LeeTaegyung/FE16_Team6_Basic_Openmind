@@ -3,18 +3,27 @@ export function relativeTimeCalculator(time) {
   const currentTime = new Date(Date.now());
 
   const difference = currentTime - baseTime;
-
-  if (difference <= 1000 || difference < 0) {
+  const MILlISECOND = 1000;
+  const SECOND = 60;
+  const MINUTE = 60;
+  const HOUR = 24;
+  const DAY = 7;
+  if (difference <= MILlISECOND || difference < 0) {
     return '지금';
-  } else if (difference <= 1000 * 60) {
-    return Math.floor(difference / 1000) + '초전';
-  } else if (difference <= 1000 * 60 * 60) {
-    return Math.floor(difference / (1000 * 60)) + '분전';
-  } else if (difference <= 1000 * 60 * 60 * 24) {
-    return Math.floor(difference / (1000 * 60 * 60)) + '시간전';
-  } else if (difference <= 1000 * 60 * 60 * 24 * 7) {
-    return Math.floor(difference / (1000 * 60 * 60 * 24)) + '일전';
+  } else if (difference <= MILlISECOND * SECOND) {
+    return Math.floor(difference / MILlISECOND) + '초전';
+  } else if (difference <= MILlISECOND * SECOND * MINUTE) {
+    return Math.floor(difference / (MILlISECOND * SECOND)) + '분전';
+  } else if (difference <= MILlISECOND * SECOND * MINUTE * HOUR) {
+    return Math.floor(difference / (MILlISECOND * SECOND * MINUTE)) + '시간전';
+  } else if (difference <= MILlISECOND * SECOND * MINUTE * HOUR * DAY) {
+    return (
+      Math.floor(difference / (MILlISECOND * SECOND * MINUTE * HOUR)) + '일전'
+    );
   } else {
-    return Math.floor(difference / (1000 * 60 * 60 * 24 * 7)) + '주전';
+    return (
+      Math.floor(difference / (MILlISECOND * SECOND * MINUTE * HOUR * DAY)) +
+      '주전'
+    );
   }
 }
