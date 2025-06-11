@@ -146,8 +146,6 @@ const SkeletonAnimation = keyframes`
 const ImgSkeleton = styled.div`
   width: 100%;
   height: 100%;
-  width: 100px;
-  height: 100px;
   border-radius: 50%;
   background: ${({ theme }) =>
     `linear-gradient(90deg, ${theme.color.gray20} 25%, ${theme.color.gray30} 50%, ${theme.color.gray20} 75%)`};
