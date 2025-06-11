@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import PostHeaderBg from '@assets/images/PostHeaderBg.jpg';
 import Logo from '@components/Logo';
 import { useGetUser } from '@context/UserContext';
@@ -11,8 +13,16 @@ function PostHeader() {
   const { user } = useGetUser();
   const { imageSource, name } = user;
 
-  const image = new Image();
-  image.src = imageSource;
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!imageSource) return;
+
+    const image = new Image();
+    image.src = imageSource;
+    image.onload = () => setIsImageLoaded(true);
+    image.onerror = () => setIsImageLoaded(false);
+  }, [imageSource]);
 
   return (
     <PostHeaderWrapper>
@@ -21,7 +31,7 @@ function PostHeader() {
       </PostTitle>
       <UserInfo>
         <UserThumbnail>
-          {image.complete ? (
+          {isImageLoaded ? (
             <img src={imageSource} alt={`${name}의 프로필 이미지`} />
           ) : (
             <ImgSkeleton />
@@ -136,8 +146,6 @@ const SkeletonAnimation = keyframes`
 const ImgSkeleton = styled.div`
   width: 100%;
   height: 100%;
-  width: 100px;
-  height: 100px;
   border-radius: 50%;
   background: ${({ theme }) =>
     `linear-gradient(90deg, ${theme.color.gray20} 25%, ${theme.color.gray30} 50%, ${theme.color.gray20} 75%)`};
