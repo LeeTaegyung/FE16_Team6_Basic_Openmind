@@ -27,6 +27,7 @@ export const deletePage = async (id) => {
     await axios.delete(`${BASE_URL}/subjects/${id}/`);
     localStorage.removeItem('userData');
     redirect = true;
+    alert('삭제가 성공적으로 완료하였습니다.');
   } catch (err) {
     console.error(err);
     alert('삭제에 실패하였습니다.');
