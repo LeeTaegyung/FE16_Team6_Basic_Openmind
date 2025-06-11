@@ -4,9 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function DeleteButton({ id }) {
+  let redirect = true;
+  const navigate = useNavigate();
+
   async function handleDelete() {
-    await deletePage(id);
-    navigate('/', { replace: true }); // / 으로 이동
+    redirect = await deletePage(id);
+    if (redirect) {
+      navigate('/', { replace: true }); // / 으로 이동
+    }
   }
   return (
     <>
