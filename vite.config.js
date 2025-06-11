@@ -32,6 +32,7 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@service': path.resolve(__dirname, 'src/service'),
       '@assets': path.resolve(__dirname, 'src/assets'),
+      '@functions': path.resolve(__dirname, 'src/functions'),
     },
   },
 });

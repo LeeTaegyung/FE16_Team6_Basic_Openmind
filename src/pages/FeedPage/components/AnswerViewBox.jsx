@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 
 import AnswerContent from './AnswerContent';
-import { useUserInfo } from '../../../context/UserContext';
+import { useGetUser } from '../../../context/UserContext';
 import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
 
 const AnswerViewBox = ({ answer }) => {
-  const [user] = useUserInfo();
-  // 읽기모드
-  // question.answer ? (
-  //   <AnswerContent answer={question.answer} />
-  // ) : null
+  const { user } = useGetUser();
 
   if (!answer) return;
   const time = relativeTimeCalculator(answer.createdAt);

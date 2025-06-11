@@ -1,52 +1,16 @@
 import { useState } from 'react';
 
-import axios from 'axios';
+import { ButtonBrown40 } from '@components/Button';
 import styled from 'styled-components';
 
-import { ButtonBrown40 } from '../../../components/Button';
-import { useAnswers, useAnswersSetter } from '@context/AnswerContext';
-
-const AnswerForm = ({ questionId, answerId, content = '' }) => {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+const AnswerForm = ({ content = '', isEditMode = false, onClick }) => {
   const [answerText, setAnswerText] = useState(content);
-  const { setAnswer, setAnswerArr } = useAnswersSetter();
+  const buttonText = isEditMode ? '수정 완료' : '답변 완료';
 
   const handleChangeText = (e) => setAnswerText(e.target.value);
 
-  const handleClickAnswer = async () => {
-    if (content === '') {
-      const response = await axios.post(
-        `${BASE_URL}/questions/${questionId}/answers/`,
-        {
-          content: answerText,
-          isRejected: false,
-        },
-      );
-
-      setAnswerArr((prev) => {
-        const filteredItem = prev.filter(
-          (el) => el.id !== response.data.questionId,
-        );
-        const findItem = prev.find((el) => el.id === response.data.questionId);
-        return [{ ...findItem, answer: response.data }, ...filteredItem];
-      });
-    } else {
-      const response = await axios.put(`${BASE_URL}/answers/${answerId}/`, {
-        content: answerText,
-        isRejected: false,
-      });
-
-      setAnswerArr((prev) => {
-        const mappedArr = prev.map((el) => {
-          if (el.id === response.data.questionId) {
-            return { ...el, answer: response.data };
-          }
-
-          return el;
-        });
-        return mappedArr;
-      });
-    }
+  const handleClickSubmit = () => {
+    onClick(answerText);
   };
 
   return (
@@ -59,10 +23,10 @@ const AnswerForm = ({ questionId, answerId, content = '' }) => {
         onChange={handleChangeText}
       />
       <StyledAnswerFormButton
-        onClick={handleClickAnswer}
+        onClick={handleClickSubmit}
         disabled={!answerText.length}
       >
-        답변 완료
+        {buttonText}
       </StyledAnswerFormButton>
     </>
   );
