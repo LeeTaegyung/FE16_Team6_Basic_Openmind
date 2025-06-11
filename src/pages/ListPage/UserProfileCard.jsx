@@ -6,7 +6,13 @@ function UserProfile({ user }) {
   const profileNavigator = useNavigate();
 
   function handleMove() {
-    profileNavigator(`/post/${user.id}`);
+    const loggedInData = JSON.parse(localStorage.getItem('userData'));
+
+    if (loggedInData.id === user.id) {
+      profileNavigator(`/post/${user.id}/answer`);
+    } else {
+      profileNavigator(`/post/${user.id}`);
+    }
   }
 
   return (

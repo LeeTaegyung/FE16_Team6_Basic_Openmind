@@ -1,5 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 
+const BREAK_POINT = 868;
+const MOBILE_ITEM_LIMIT = 6;
+const DESKTOP_ITEM_LIMIT = 8;
+
 export function useResizeLimit() {
   const resizeTimer = useRef(null);
   const [innerWidth, setInnerWidth] = useState(null);
@@ -24,7 +28,8 @@ export function useResizeLimit() {
 
   useEffect(() => {
     if (!innerWidth) return;
-    const newLimit = innerWidth < 868 ? 6 : 8;
+    const newLimit =
+      innerWidth < BREAK_POINT ? MOBILE_ITEM_LIMIT : DESKTOP_ITEM_LIMIT;
     setLimit(newLimit);
   }, [innerWidth]);
 
