@@ -3,64 +3,93 @@ import { useRef } from 'react';
 import Close from '@assets/icons/Close.svg?react';
 import Edit from '@assets/icons/Edit.svg?react';
 import More from '@assets/icons/More.svg?react';
-import { useGetQuestions } from '@context/PostContext';
+import { useGetPost, useGetQuestions } from '@context/PostContext';
 import { useClickOutside } from '@hooks/useClickOutside';
-import { deleteQuestion } from '@service/api';
+import { createAnswer, deleteQuestion, updateAnswer } from '@service/api';
 import styled, { css } from 'styled-components';
 
-function Meatball({ questionId, questionStatus, isAnswered, callback }) {
+function Meatball({ question, isAnswered, setIsEditMode }) {
   const dropdownRef = useRef(null);
-  const [isOpen, handleToggle] = useClickOutside(dropdownRef);
-  const { _, setQuestions } = useGetQuestions();
+  const { isOpen, onToggle } = useClickOutside(dropdownRef);
+  const { setQuestions } = useGetQuestions();
+  const { setPost } = useGetPost();
 
   const items = [
     {
       icon: <Edit width={14} height={14} />,
       text: '수정하기',
-      isDisable: questionStatus,
+      isDisable: !isAnswered,
       function: () => {
-        callback(true);
-        handleToggle();
+        setIsEditMode(true);
+        onToggle();
       },
     },
     {
       icon: <Close width={14} height={14} />,
       text: '삭제하기',
-      isDisable: !isAnswered,
-      function: (questionId) => {
+      isDisable: false,
+      function: (question) => {
         // 삭제하기가 답이 달렸을 때에만 작동,
-        deleteQuestion(questionId).then(() =>
+        deleteQuestion(question.id).then(() => {
           setQuestions((prev) => {
-            const filteredItems = prev.filter((el) => el.id !== questionId);
+            const filteredItems = prev.filter((el) => el.id !== question.id);
             return filteredItems;
-          }),
-        );
-        handleToggle();
+          });
+          setPost((prev) => {
+            return { ...prev, count: prev.count - 1 };
+          });
+        });
+        onToggle();
+      },
+    },
+    {
+      icon: <Close width={14} height={14} />,
+      text: '답변 거절',
+      isDisable: false,
+      className: 'rejected',
+      function: async (question) => {
+        const data = isAnswered
+          ? await updateAnswer(
+              question.answer.id,
+              question.answer.content,
+              true,
+            )
+          : await createAnswer(question.id, '&nbsp;', true);
+
+        setQuestions((prev) => {
+          return prev.map((el) => {
+            return el.id === question.id ? { ...el, answer: data } : el;
+          });
+        });
+
+        setIsEditMode(false);
+        onToggle();
       },
     },
   ];
 
   return (
     <MoreButtonWrapper ref={dropdownRef}>
-      <MoreButton onClick={handleToggle}>
+      <MoreButton onClick={onToggle}>
         <More />
       </MoreButton>
-      {isOpen && <Dropdown questionId={questionId} items={items} />}
+      {isOpen && <Dropdown question={question} items={items} />}
     </MoreButtonWrapper>
   );
 }
 
 export default Meatball;
 
-function Dropdown({ questionId, items }) {
+function Dropdown({ question, items }) {
   return (
     <DropdownWrapper>
       <DropdownList>
         {items.map((el, i) => (
           <DropdownItem
             key={i}
-            onClick={() => (el.isDisable ? null : el.function(questionId))}
+            onClick={() => el.function(question)}
             isDisable={el.isDisable}
+            className={el.className ? el.className : null}
           >
             {el.icon} {el.text}
           </DropdownItem>
@@ -127,4 +156,8 @@ const DropdownItem = styled.li.withConfig({
         background-color: transparent;
       }
     `}
+
+  &.rejected {
+    color: red;
+  }
 `;

@@ -7,13 +7,10 @@ import QuestionEmpty from './QuestionEmpty';
 import QuestionList from './QuestionList';
 
 function AnswerCluster({ isEditable }) {
-  // isEditable이 자기가 만든 질문인지 아닌지 확인하는 상태값 => context로 분리를 해야하나?..
-  // 프롭스 드릴링 이슈는 어쩔수 없는듯....
   const { post } = useGetPost();
   const { id } = useParams();
 
   if (!post) {
-    // 데이터가 로딩중일때에는 로딩중...을 보여주는데, 이건 나중에 밖으로 뺄지를 고민해봐야할 것 같음.
     console.log('loading...');
     return <div>로딩중....</div>;
   }
@@ -24,7 +21,7 @@ function AnswerCluster({ isEditable }) {
       <AnswerClusterBody>
         {isEditable && (
           <DeleteButtonArea>
-            <DeleteButton subjectInfo={id} />
+            <DeleteButton id={id} />
           </DeleteButtonArea>
         )}
         <AnswerClusterWrapper>

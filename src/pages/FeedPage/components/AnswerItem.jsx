@@ -20,10 +20,9 @@ function AnswerItem({ question, isEditable }) {
         </Badge>
         {isEditable && (
           <Meatball
-            questionId={question.id}
-            questionStatus={question.answer ? false : true}
+            question={question}
             isAnswered={question.answer ? true : false}
-            callback={setIsEditMode}
+            setIsEditMode={setIsEditMode}
           />
         )}
       </AnswerItemUpperWrapper>
