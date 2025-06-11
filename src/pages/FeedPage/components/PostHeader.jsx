@@ -1,7 +1,7 @@
 import PostHeaderBg from '@assets/images/PostHeaderBg.jpg';
 import Logo from '@components/Logo';
 import { useGetUser } from '@context/UserContext';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import FacebookShareButton from './FacebookShareButton';
 import KakaoShareButton from './KakaoShareButton';
@@ -11,6 +11,9 @@ function PostHeader() {
   const { user } = useGetUser();
   const { imageSource, name } = user;
 
+  const image = new Image();
+  image.src = imageSource;
+
   return (
     <PostHeaderWrapper>
       <PostTitle>
@@ -18,7 +21,11 @@ function PostHeader() {
       </PostTitle>
       <UserInfo>
         <UserThumbnail>
-          <img src={imageSource} alt={`${name}의 프로필 이미지`} />
+          {image.complete ? (
+            <img src={imageSource} alt={`${name}의 프로필 이미지`} />
+          ) : (
+            <ImgSkeleton />
+          )}
         </UserThumbnail>
         <UserName>{name}</UserName>
       </UserInfo>
@@ -115,4 +122,25 @@ const PostUtils = styled.ul`
   svg {
     display: block;
   }
+`;
+
+const SkeletonAnimation = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const ImgSkeleton = styled.div`
+  width: 100%;
+  height: 100%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: ${({ theme }) =>
+    `linear-gradient(90deg, ${theme.color.gray20} 25%, ${theme.color.gray30} 50%, ${theme.color.gray20} 75%)`};
+  background-size: 200% 100%;
+  animation: ${SkeletonAnimation} 1.5s infinite linear;
 `;
