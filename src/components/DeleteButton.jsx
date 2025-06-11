@@ -7,7 +7,7 @@ function DeleteButton({ id }) {
   const navigate = useNavigate();
 
   async function handleDelete() {
-    const data = await DeletePage(id);
+    await DeletePage(id);
     navigate('/', { replace: true }); // / 으로 이동
   }
   return (

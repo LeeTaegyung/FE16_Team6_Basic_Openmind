@@ -21,7 +21,7 @@ export const additionalFetch = (url, setQuestion) => {
   });
 };
 
-export const DeletePage = async (id) => {
+export const deletePage = async (id) => {
   try {
     const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
     return response.data;

@@ -9,10 +9,10 @@ function ListHeader() {
 
   function handleNavigate(e) {
     e.preventDefault();
-    const loggedInId = localStorage.getItem('login');
+    const loggedInData = JSON.parse(localStorage.getItem('userData'));
 
-    if (loggedInId) {
-      navigateList(`/post/${loggedInId}/answer`);
+    if (loggedInData) {
+      navigateList(`/post/${loggedInData.id}/answer`);
     } else {
       navigateList('/');
     }
