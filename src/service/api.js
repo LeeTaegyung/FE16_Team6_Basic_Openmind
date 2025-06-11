@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const QUESTION_LIMIT = 3;
@@ -23,16 +22,18 @@ export const additionalFetch = (url, setQuestion) => {
 };
 
 export const deletePage = async (id) => {
-  const navigate = useNavigate();
+  let redirect = true;
   try {
-    const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
-    navigate('/', { replace: true }); // / 으로 이동
+    await axios.delete(`${BASE_URL}/subjects/${id}/`);
     localStorage.removeItem('userData');
-    return response.data;
+    redirect = true;
+    alert('삭제가 성공적으로 완료하였습니다.');
   } catch (err) {
     console.error(err);
     alert('삭제에 실패하였습니다.');
+    redirect = false;
   }
+  return redirect;
 };
 
 export const fetchUser = async (userId) => {
