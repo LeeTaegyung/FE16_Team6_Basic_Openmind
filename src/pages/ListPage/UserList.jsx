@@ -12,7 +12,7 @@ import UserProfile from './UserProfileCard';
 
 function UserList() {
   // 해당 훅 마운트 될 때 아이템들 로드
-  const [result, queryStrings, setQueryStrings, isLoading] =
+  const { result, queryStrings, setQueryStrings, isLoading } =
     useLoadItemsByQuery();
   const limit = useResizeLimit();
 

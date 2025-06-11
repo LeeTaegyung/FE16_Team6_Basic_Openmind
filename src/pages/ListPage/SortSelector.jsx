@@ -13,7 +13,7 @@ const sortMenu = {
 function SortSelector({ queryStrings, setQueryStrings }) {
   const { sort } = queryStrings;
   const selectorRef = useRef(null);
-  const [isOpen, handleToggle] = useClickOutside(selectorRef);
+  const { isOpen, onToggle } = useClickOutside(selectorRef);
 
   //쿼리스트링 변경하기
   function handleClick(key) {
@@ -43,7 +43,7 @@ function SortSelector({ queryStrings, setQueryStrings }) {
     <Selector
       ref={selectorRef}
       isOpen={isOpen}
-      onToggle={handleToggle}
+      onToggle={onToggle}
       renderMenu={renderMenu}
     >
       <button className={`selectorBtn ${isOpen ? 'isActive' : null}`}>
