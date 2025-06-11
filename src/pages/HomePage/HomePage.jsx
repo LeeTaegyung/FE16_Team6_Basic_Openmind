@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { useToastContext } from '@context/ToastContext';
 import HomePageBg from '@assets/images/HomePageBg.jpg';
 import ArrowRight from '@assets/images/icons/ArrowRight.svg?react';
 import Person from '@assets/images/icons/Person.png';
@@ -13,14 +14,26 @@ import styled from 'styled-components';
 function HomePage() {
   const [name, setName] = useState('');
   const navigate = useNavigate();
+  const { createToast } = useToastContext();
 
   const handleSubmit = async () => {
     const stored = localStorage.getItem('userData');
 
     if (stored) {
       const parsed = JSON.parse(stored);
+      const id = parsed.id;
       if (parsed.name === name) {
-        navigate(`/post/${parsed.id}/answer`);
+        if (parsed.id === id) {
+          navigate(`/post/${parsed.id}/answer`);
+          return;
+        } else {
+          createToast({ message: '중복된 이름이 있습니다' });
+          return;
+        }
+      } else {
+        createToast({
+          message: '이미 생성된 아이디가 있습니다',
+        });
         return;
       }
     }
@@ -36,6 +49,7 @@ function HomePage() {
       localStorage.setItem('userData', JSON.stringify({ name, id: subjectId }));
     } catch (err) {
       console.error('등록 실패:', err.response?.data || err);
+      createToast({ message: `안됩니다` });
     }
   };
   return (
