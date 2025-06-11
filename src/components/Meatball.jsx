@@ -11,7 +11,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function Meatball({ questionId, questionStatus, callback }) {
   const dropdownRef = useRef(null);
-  const [isOpen, handleToggle] = useClickOutside(dropdownRef);
+  const { isOpen, handleToggle } = useClickOutside(dropdownRef);
 
   const items = [
     {
