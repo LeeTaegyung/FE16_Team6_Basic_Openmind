@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function DeleteButton({ id }) {
-  const navigate = useNavigate();
-
   async function handleDelete() {
     await deletePage(id);
     navigate('/', { replace: true }); // / 으로 이동
