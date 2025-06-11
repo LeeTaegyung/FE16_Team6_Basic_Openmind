@@ -8,7 +8,7 @@ function UserProfile({ user }) {
   function handleMove() {
     const loggedInData = JSON.parse(localStorage.getItem('userData'));
 
-    if (loggedInData.id === user.id) {
+    if (loggedInData?.id === user.id) {
       profileNavigator(`/post/${user.id}/answer`);
     } else {
       profileNavigator(`/post/${user.id}`);
@@ -46,6 +46,11 @@ export const ProfileCard = styled.div`
   }
 
   h2 {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     margin-top: 12px;
     font-size: ${({ theme }) => theme.fontSize.fz18};
     line-height: ${({ theme }) => theme.lineHeight.lh24};
