@@ -6,6 +6,7 @@ import AnswerForm from './AnswerForm';
 
 const EditableAnswer = ({ answer, isEditMode, setIsEditMode }) => {
   const { setQuestions } = useGetQuestions();
+  const content = answer.isRejected ? '' : answer.content;
 
   // 답변 수정
   const handleUpdateAnswer = async (answerText) => {
@@ -29,7 +30,7 @@ const EditableAnswer = ({ answer, isEditMode, setIsEditMode }) => {
       {isEditMode ? (
         // 수정폼
         <AnswerForm
-          content={answer.content}
+          content={content}
           isEditMode={isEditMode}
           onClick={handleUpdateAnswer}
         />

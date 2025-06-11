@@ -74,13 +74,17 @@ export const deleteQuestion = async (questionId) => {
   }
 };
 
-export const createAnswer = async (questionId, answerText) => {
+export const createAnswer = async (
+  questionId,
+  answerText,
+  isRejected = false,
+) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/questions/${questionId}/answers/`,
       {
         content: answerText,
-        isRejected: false,
+        isRejected: isRejected,
       },
     );
     return response.data;
@@ -89,11 +93,15 @@ export const createAnswer = async (questionId, answerText) => {
   }
 };
 
-export const updateAnswer = async (answerId, answerText) => {
+export const updateAnswer = async (
+  answerId,
+  answerText,
+  isRejected = false,
+) => {
   try {
     const response = await axios.put(`${BASE_URL}/answers/${answerId}/`, {
       content: answerText,
-      isRejected: false,
+      isRejected: isRejected,
     });
     return response.data;
   } catch (err) {
