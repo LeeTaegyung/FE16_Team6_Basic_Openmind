@@ -22,6 +22,7 @@ function AnswerItem({ question, isEditable }) {
           <Meatball
             questionId={question.id}
             questionStatus={question.answer ? false : true}
+            isAnswered={question.answer ? true : false}
             callback={setIsEditMode}
           />
         )}
