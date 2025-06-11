@@ -1,13 +1,13 @@
 import { ButtonBrown40 } from '@components/Button.jsx';
-import { DeletePage } from '@service/api.js';
+import { deletePage } from '@service/api.js';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function DeleteButton({ subjectInfo }) {
+function DeleteButton({ id }) {
   const navigate = useNavigate();
 
   async function handleDelete() {
-    const data = await DeletePage(subjectInfo.id);
+    await deletePage(id);
     navigate('/', { replace: true }); // / 으로 이동
   }
   return (

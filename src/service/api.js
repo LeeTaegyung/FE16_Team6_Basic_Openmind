@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const QUESTION_LIMIT = 3;
@@ -21,9 +22,11 @@ export const additionalFetch = (url, setQuestion) => {
   });
 };
 
-export const DeletePage = async (id) => {
+export const deletePage = async (id) => {
+  const navigate = useNavigate();
   try {
     const response = await axios.delete(`${BASE_URL}/subjects/${id}/`);
+    navigate('/', { replace: true }); // / 으로 이동
     return response.data;
   } catch (err) {
     console.error(err);
