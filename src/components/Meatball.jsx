@@ -3,15 +3,15 @@ import { useRef } from 'react';
 import Close from '@assets/icons/Close.svg?react';
 import Edit from '@assets/icons/Edit.svg?react';
 import More from '@assets/icons/More.svg?react';
+import { useGetQuestions } from '@context/PostContext';
 import { useClickOutside } from '@hooks/useClickOutside';
-import axios from 'axios';
+import { deleteQuestion } from '@service/api';
 import styled, { css } from 'styled-components';
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
-
-function Meatball({ questionId, questionStatus, callback }) {
+function Meatball({ questionId, questionStatus, isAnswered, callback }) {
   const dropdownRef = useRef(null);
   const { isOpen, handleToggle } = useClickOutside(dropdownRef);
+  const { _, setQuestions } = useGetQuestions();
 
   const items = [
     {
@@ -26,10 +26,15 @@ function Meatball({ questionId, questionStatus, callback }) {
     {
       icon: <Close width={14} height={14} />,
       text: '삭제하기',
-      isDisable: false,
+      isDisable: !isAnswered,
       function: (questionId) => {
         // 삭제하기가 답이 달렸을 때에만 작동,
-        axios.delete(`${baseUrl}/answers/${questionId}/`);
+        deleteQuestion(questionId).then(() =>
+          setQuestions((prev) => {
+            const filteredItems = prev.filter((el) => el.id !== questionId);
+            return filteredItems;
+          }),
+        );
         handleToggle();
       },
     },

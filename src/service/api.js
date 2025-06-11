@@ -65,6 +65,15 @@ export const createQuestion = async (userId, questionText) => {
   }
 };
 
+export const deleteQuestion = async (questionId) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/questions/${questionId}/`);
+    return response.data;
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
 export const createAnswer = async (questionId, answerText) => {
   try {
     const response = await axios.post(
