@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import Close from '@assets/icons/Close.svg?react';
 import Edit from '@assets/icons/Edit.svg?react';
 import More from '@assets/icons/More.svg?react';
-import { useGetQuestions } from '@context/PostContext';
+import { useGetPost, useGetQuestions } from '@context/PostContext';
 import { useClickOutside } from '@hooks/useClickOutside';
 import { createAnswer, deleteQuestion, updateAnswer } from '@service/api';
 import styled, { css } from 'styled-components';
@@ -12,6 +12,7 @@ function Meatball({ question, isAnswered, setIsEditMode }) {
   const dropdownRef = useRef(null);
   const { isOpen, onToggle } = useClickOutside(dropdownRef);
   const { setQuestions } = useGetQuestions();
+  const { setPost } = useGetPost();
 
   const items = [
     {
@@ -26,15 +27,18 @@ function Meatball({ question, isAnswered, setIsEditMode }) {
     {
       icon: <Close width={14} height={14} />,
       text: '삭제하기',
-      isDisable: !isAnswered,
+      isDisable: false,
       function: (question) => {
         // 삭제하기가 답이 달렸을 때에만 작동,
-        deleteQuestion(question.id).then(() =>
+        deleteQuestion(question.id).then(() => {
           setQuestions((prev) => {
             const filteredItems = prev.filter((el) => el.id !== question.id);
             return filteredItems;
-          }),
-        );
+          });
+          setPost((prev) => {
+            return { ...prev, count: prev.count - 1 };
+          });
+        });
         onToggle();
       },
     },
