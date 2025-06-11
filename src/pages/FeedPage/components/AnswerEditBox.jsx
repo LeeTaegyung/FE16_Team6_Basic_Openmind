@@ -1,13 +1,27 @@
+import { useGetQuestions } from '@context/PostContext';
+import { useGetUser } from '@context/UserContext';
+import { relativeTimeCalculator } from '@functions/relativeTimeCalculator';
+import { createAnswer } from '@service/api';
 import styled from 'styled-components';
 
-import AnswerContent from './AnswerContent';
 import AnswerForm from './AnswerForm';
-import { useUserInfo } from '../../../context/UserContext';
-import { relativeTimeCalculator } from '../../../functions/relativeTimeCalculator';
+import EditableAnswer from './EditableAnswer';
 
-const AnswerEditBox = ({ answer, questionId }) => {
-  const [user] = useUserInfo();
+const AnswerEditBox = ({ answer, questionId, isEditMode, setIsEditMode }) => {
+  const { user } = useGetUser();
+  const { setQuestions } = useGetQuestions();
   const time = answer && relativeTimeCalculator(answer.createdAt);
+
+  // 답변 생성
+  const handleCreateAnswer = async (answerText) => {
+    const data = await createAnswer(questionId, answerText);
+
+    setQuestions((prev) => {
+      return prev.map((el) => {
+        return el.id === questionId ? { ...el, answer: data } : el;
+      });
+    });
+  };
 
   return (
     <AnswerBoxWrapper>
@@ -18,9 +32,13 @@ const AnswerEditBox = ({ answer, questionId }) => {
           {answer && <AnswerBoxCreatedAt>{time}</AnswerBoxCreatedAt>}
         </AnswerBoxUserInfo>
         {answer ? (
-          <AnswerContent answer={answer} />
+          <EditableAnswer
+            answer={answer}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+          />
         ) : (
-          <AnswerForm questionId={questionId} />
+          <AnswerForm onClick={handleCreateAnswer} />
         )}
       </AnswerBoxRight>
     </AnswerBoxWrapper>

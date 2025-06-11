@@ -1,7 +1,7 @@
 import AnswerCluster from './components/AnswerCluster';
 import FloatingButton from './components/FloatingButton';
 
-function AnswerViewPage() {
+function PostViewPage() {
   return (
     <>
       <AnswerCluster isEditable={false} />
@@ -10,4 +10,4 @@ function AnswerViewPage() {
   );
 }
 
-export default AnswerViewPage;
+export default PostViewPage;

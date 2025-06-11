@@ -1,26 +1,16 @@
 import { useState } from 'react';
 
-import axios from 'axios';
+import { ButtonBrown40 } from '@components/Button';
 import styled from 'styled-components';
 
-import { ButtonBrown40 } from '../../../components/Button';
-
-const AnswerForm = ({ questionId }) => {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [answerText, setAnswerText] = useState('');
+const AnswerForm = ({ content = '', isEditMode = false, onClick }) => {
+  const [answerText, setAnswerText] = useState(content);
+  const buttonText = isEditMode ? '수정 완료' : '답변 완료';
 
   const handleChangeText = (e) => setAnswerText(e.target.value);
 
-  const handleClickAnswer = async () => {
-    const response = await axios.post(
-      `${BASE_URL}/questions/${questionId}/answers/`,
-      {
-        content: answerText,
-        isRejected: false,
-      },
-    );
-
-    console.log(response);
+  const handleClickSubmit = () => {
+    onClick(answerText);
   };
 
   return (
@@ -33,10 +23,10 @@ const AnswerForm = ({ questionId }) => {
         onChange={handleChangeText}
       />
       <StyledAnswerFormButton
-        onClick={handleClickAnswer}
+        onClick={handleClickSubmit}
         disabled={!answerText.length}
       >
-        답변 완료
+        {buttonText}
       </StyledAnswerFormButton>
     </>
   );

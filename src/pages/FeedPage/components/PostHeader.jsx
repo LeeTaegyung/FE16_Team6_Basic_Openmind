@@ -1,6 +1,6 @@
 import PostHeaderBg from '@assets/images/PostHeaderBg.jpg';
 import Logo from '@components/Logo';
-import { useUserInfo } from '@context/UserContext';
+import { useGetUser } from '@context/UserContext';
 import styled from 'styled-components';
 
 import FacebookShareButton from './FacebookShareButton';
@@ -8,7 +8,9 @@ import KakaoShareButton from './KakaoShareButton';
 import LinkCopyButton from './LinkCopyButton';
 
 function PostHeader() {
-  const [user] = useUserInfo();
+  const { user } = useGetUser();
+  const { imageSource, name } = user;
+
   return (
     <PostHeaderWrapper>
       <PostTitle>
@@ -16,16 +18,16 @@ function PostHeader() {
       </PostTitle>
       <UserInfo>
         <UserThumbnail>
-          <img src={user.imageSource} alt={`${user.name}의 프로필 이미지`} />
+          <img src={imageSource} alt={`${name}의 프로필 이미지`} />
         </UserThumbnail>
-        <UserName>{user.name}</UserName>
+        <UserName>{name}</UserName>
       </UserInfo>
       <PostUtils>
         <li>
           <LinkCopyButton />
         </li>
         <li>
-          <KakaoShareButton name={user.name} subjectId={user.subjectId} />
+          <KakaoShareButton />
         </li>
         <li>
           <FacebookShareButton />
