@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Pretendard', sans-serif;
     background: ${({ theme }) => theme.color.gray20};
+    min-width: 375px;
   }
 
   ul,li{
