@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import IconKakaoShare from '@assets/icons/IconKakaoShare.svg?react';
-
-import { useGetUser } from '../../../context/UserContext';
+import { useGetUser } from '@context/UserContext';
 
 function KakaoShareButton() {
   const KAKAO_APP_KEY = import.meta.env.VITE_KAKAO_APP_KEY;
