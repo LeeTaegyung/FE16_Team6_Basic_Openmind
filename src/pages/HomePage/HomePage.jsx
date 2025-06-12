@@ -10,6 +10,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Splash from '@components/Splash';
 
 function HomePage() {
   const [name, setName] = useState('');
@@ -52,9 +53,10 @@ function HomePage() {
       createToast({ message: `안됩니다` });
     }
   };
-  
+
   return (
     <HomePageWrapper>
+      <Splash />
       <LogoImg className='logo' />
       <HomePageButton to='/list'>
         질문하러 가기 <ArrowRight width={18} height={18} />
