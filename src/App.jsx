@@ -1,11 +1,10 @@
 import ToastContainer from '@components/Toast';
+import HomePage from '@pages/HomePage/HomePage';
+import UserList from '@pages/ListPage/UserList';
 import PostEditPage from '@pages/PostPage/PostEditPage';
 import PostLayout from '@pages/PostPage/PostLayout';
 import PostViewPage from '@pages/PostPage/PostViewPage';
-import HomePage from '@pages/HomePage/HomePage';
-import UserList from '@pages/ListPage/UserList';
 import { Routes, Route } from 'react-router-dom';
-
 
 function App() {
   return (

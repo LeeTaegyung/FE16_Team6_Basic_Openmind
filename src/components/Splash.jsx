@@ -1,5 +1,6 @@
-import LogoSvg from '@assets/images/Logo.svg?react';
 import { useEffect, useState } from 'react';
+
+import LogoSvg from '@assets/images/Logo.svg?react';
 import styled, { keyframes } from 'styled-components';
 
 function Splash() {
