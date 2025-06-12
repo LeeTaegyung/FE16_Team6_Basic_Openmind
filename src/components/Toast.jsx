@@ -87,6 +87,7 @@ const StyledToastContainer = styled.div`
   height: 0;
   padding-bottom: 60px;
   pointer-events: none;
+  z-index: 9999;
 `;
 
 const StyledToast = styled.div`

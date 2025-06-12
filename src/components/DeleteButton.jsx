@@ -2,17 +2,29 @@ import { ButtonBrown40 } from '@components/Button.jsx';
 import { deletePage } from '@service/api.js';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useToastContext } from '@context/ToastContext';
 
 function DeleteButton({ id }) {
+  const { createToast } = useToastContext();
   let redirect = true;
   const navigate = useNavigate();
 
   async function handleDelete() {
-    redirect = await deletePage(id);
+    let resultText;
+
+    const redirect = await deletePage(id);
     if (redirect) {
+      resultText = '삭제가 완료되었습니다.';
       navigate('/', { replace: true }); // / 으로 이동
+    } else {
+      resultText = '삭제에 실패했습니다.';
     }
+
+    createToast({
+      message: resultText,
+    });
   }
+
   return (
     <>
       <Button onClick={handleDelete}>삭제하기</Button>

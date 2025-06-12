@@ -42,7 +42,7 @@ const StyledIntro = styled.div`
   width: 100%;
   height: 100%;
   background: white;
-  z-index: 9999;
+  z-index: 9998;
   display: flex;
   align-items: center;
   justify-content: center;
